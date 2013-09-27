@@ -1,0 +1,36 @@
+/// вывод массива SERVER
+HTTP_ACCEPT _ text/html, application/xhtml+xml, */* 
+HTTP_ACCEPT_LANGUAGE _ ru-RU 
+HTTP_USER_AGENT _ Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0) 
+HTTP_ACCEPT_ENCODING _ gzip, deflate 
+HTTP_HOST _ test1.ru 
+HTTP_CONNECTION _ Keep-Alive 
+PATH _ \usr\local\ImageMagick;\usr\local\php5;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Autodesk\Backburner\;C:\Program Files\Common Files\Autodesk Shared\;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\WindowsPowerShell\v1.0\ 
+SystemRoot _ C:\Windows 
+COMSPEC _ C:\Windows\system32\cmd.exe 
+PATHEXT _ .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC 
+WINDIR _ C:\Windows 
+SERVER_SIGNATURE _ 
+Apache/2.2.22 (Win32) mod_ssl/2.2.22 OpenSSL/1.0.1c PHP/5.3.13 Server at test1.ru Port 80
+
+SERVER_SOFTWARE _ Apache/2.2.22 (Win32) mod_ssl/2.2.22 OpenSSL/1.0.1c PHP/5.3.13 
+SERVER_NAME _ test1.ru 
+SERVER_ADDR _ 127.0.0.1 
+SERVER_PORT _ 80 
+REMOTE_ADDR _ 127.0.0.1 
+DOCUMENT_ROOT _ Z:/home/test1.ru/www 
+SERVER_ADMIN _ admin@example.com 
+SCRIPT_FILENAME _ Z:/home/test1.ru/www/SERVER.php 
+REMOTE_PORT _ 50513 
+GATEWAY_INTERFACE _ CGI/1.1 
+SERVER_PROTOCOL _ HTTP/1.1 
+REQUEST_METHOD _ GET 
+QUERY_STRING _ 
+REQUEST_URI _ /SERVER.php/ 
+SCRIPT_NAME _ /SERVER.php 
+PATH_INFO _ / 
+PATH_TRANSLATED _ Z:\home\test1.ru\www\index.php 
+PHP_SELF _ /SERVER.php/ 
+REQUEST_TIME _ 1380210752 
+argv _ Array 
+argc _ 0 
