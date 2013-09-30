@@ -5,19 +5,24 @@
   <meta charset="utf-8">
   </head>
  <body>
+ 
+ 
+ 
  <!-- форма оценки-->
  <form method = "get">  
  <p>Оцените мотоцикл: <br /></p>
- <img src="test_home.ru/www/golos/moto.jpg" alt="Мотоцикл красного цвета " width="100" height="80" /> 
+ <img src="golos/moto.jpg" alt="Мотоцикл красного цвета" width="100" height="80" /> 
  <!-- src-указывает на источник изображения; alt-альтернативный текст; ширина в px; высота в px -->
  
- <input type = "radio" name = "golos" value="0"><p>Отличный мот</p><br>
+ <input type = "radio" name = "golos" value="0"><p>Отличный мот</p><br> <!-- value - сопоставленно с ключами в массиве -->
  <input type = "radio" name = "golos" value="1"><p>Хороший аппарат</p><br>
  <input type = "radio" name = "golos" value="2"><p>Норма</p><br>
  <input type = "radio" name = "golos" value="3"><p>Троечку поставлю</p><br>
  <input type = "radio" name = "golos" value="4"><p>Не вариант</p><br>
  <p><input type = "submit" name = "s1" value = "start">Оценить<br></p>  <!--кнопка -->
  </form>
+ 
+ 
  
  <!-- Обработчик формы оценки мотоцикла-->
  <?php
@@ -31,12 +36,14 @@
  $golos = $_GET[golos];  
  $mas[$golos]++;  
  
- echo $str = implode (":", $mas);   # собрать массив в строку
+ echo $str = implode (":::", $mas);   # собрать массив в строку
  $f1 = fopen ("golos.txt", "w");  # открыть файл для перезаписи 
  fwrite ($f1,$str);  # запись строки в файл
  fclose ($f1);   # закрыть файл
  }
  ?>
+ 
+ 
  
  <!-- вывод результатов -->
  <?php
@@ -44,46 +51,46 @@
  $str = fread ($f1, filesize ("golos.txt"));  # прочитать файл
  fclose ($f1);  # закрыть 
  
- $mas = explode (":", $str); # разбить строку на массив
+ $mas = explode (":::", $str); # разбить строку на массив
  // внесем перемнную ноль
  $maх = 0;  # поиск max элемента в массиве $mas
  /*сравним каждый элемент массива с нулем
  что бы пройтись по всем элементам массива, нужен цикл foreach*/
- foreach  ($mas as $per) {
+ foreach  ($mas as $per) {          # рассмотрим каждый элемент массива, как переменные
  if ($per > $maх) $maх = $per;      # если элемент массива больше, чем текущий максимум (т.е. $per) мы его присваиваем максимум
  }
  foreach ($mas as $per) {           # цикл создания массива ширин в % отношении к максимум, подсчет ширин
  // вводим новый массив $wdt ширина
     $wdt[] = $per*100/$max;
     echo "$wdt";
-    echo '<table width="100%" border="2" cellspacing="1" cellpadding="4"> # ширина, толщина рамки в px, расстояние между яч., отступ от рамки до содержимого яч.
-            <tr align="center" bgcolor="#999999">
-                <td> Отличный мот</td>
-                <td width = 500% ><div style = 'width: $wdt[0]%;'></div></td>
-<!-- Parse error: syntax error, unexpected T_STRING, expecting ',' or ';' in Z:\home\test_home.ru\www\golos\golosphp.php on line 62 -->
+    echo <table width="100%" border="2" cellspacing="1" cellpadding="4"> # ширина, толщина рамки в px, расстояние между яч., отступ от рамки до содержимого яч.
+    
+            <tr align="center" bgcolor="#00A055">       # align -выравнивание по центру; bgcolor - фон цвета ячейки
+                <td> Отличный мот</td>                  # тег <td> - для создания одной ячейки таблицы
+                <td width ="500"><div style = "width: $wdt[0]%;"></div></td>    # width ="500"- ширина ячеки в px; "width: $wdt[0]%;"- ширина div в %
                 <td>$mas[0] </td>
             </tr>
-            <tr align="center" bgcolor="#999999">
+            <tr align="center" bgcolor="#00A055">
                 <td> Хороший аппарат</td>
-                <td width = 500% ><div style = 'width: $wdt[1]%;'></div></td>
+                <td width ="500" ><div style = "width: $wdt[1]%;"></div></td>
                 <td>$mas[1] </td>
             </tr>
-            <tr align="center" bgcolor="#999999">
+            <tr align="center" bgcolor="#00A055">
                 <td> Норма</td>
-                <td width = 500% ><div style = 'width: $wdt[2]%;'></div></td>
+                <td width ="500" ><div style = "width: $wdt[2]%;"></div></td>
                 <td>$mas[2] </td>
             </tr>
-            <tr align="center" bgcolor="#999999">
+            <tr align="center" bgcolor="#00A055">
                 <td> Троечку поставлю</td>
-                <td width = 500% ><div style = 'width: $wdt[3]%;'></div></td>
+                <td width ="500" ><div style = "width: $wdt[3]%;"></div></td>
                 <td>$mas[3] </td>
             </tr>
-            <tr align="center" bgcolor="#999999">
+            <tr align="center" bgcolor="#00A055">
                 <td> Не вариант</td>
-                <td width = 500% ><div style = 'width: $wdt[4]%;'></div></td>
+                <td width ="500" ><div style = "width: $wdt[4]%;"></div></td>
                 <td>$mas[4] </td>
             </tr>
-        </table>';
+        </table>;
     }
  ?>
   </body> 
