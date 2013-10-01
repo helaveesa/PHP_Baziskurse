@@ -1,0 +1,7 @@
+http://www.phpfaq.ru/calendar
+
+http://www.softtime.ru/scripts/calendar.php
+
+http://www.cyberforum.ru/php-beginners/thread355191.html
+
+http://kachkarvv.ru/src-php/calendar.php
