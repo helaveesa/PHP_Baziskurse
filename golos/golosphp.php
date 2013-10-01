@@ -90,7 +90,22 @@
                 <td width ="500" ><div style = "width: $wdt[4]%;"></div></td>
                 <td>$mas[4] </td>
             </tr>
-        </table>;
+        </table> 
+        
+        # вот еще пример того, как можно оформить вывод результатов голосования
+/*
+        прописать CSS стиль:
+        #container div {
+    background: red;
+    padding: 5px;
+    margin-bottom: 5px;
+    border: 1px solid black;
+}
+
+и сослаться на него в отдельном div
+<div id="container"></div>
+
+в php код, в часть с циклом вставить '#container' */
     }
  ?>
   </body> 
