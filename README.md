@@ -13,3 +13,8 @@ PHP_Baziskurse
 * http://www.site-do.ru/db/db3.php
 * http://www.sergeeva-i.narod.ru/inform/page6.htm
 
+Colors for HTML
+* http://www.klubok.net/reviews160.html
+* http://colorscheme.ru/html-colors.html
+
+
