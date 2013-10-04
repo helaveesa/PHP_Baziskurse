@@ -36,6 +36,16 @@ http://industrialconflicts.ru/adm/confmsg/?_a=view&id=1223854&_from=0
 
 
 - 1223854 - id
+
+    <!-- ID MESSEGE  id=1234819--> 
+    
+    <li class="ui-corner-top ui-state-default ui-state-active"><a href="/adm/confmsg/?_a=view&id=1234819&_server_referer=%3F%26_filter%3D4"><span>Просмотр</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="/adm/confmsg/?_a=edit&id=1234819&_server_referer=%3F%26_filter%3D4"><span>Редактор</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="/adm/confmsg/?_a=del&id=1234819&_server_referer=%3F%26_filter%3D4"><span>Удаление</span></a></li>
+    
+    
 - Источник - Прокуратура уральского федерального округа
 - Рубрики по глоссарию - Причины трудовых конфликтов » Заработная плата » Невыплата заработной платы » Полная невыплата заработной платы
                         - Действия ОГВ » Судебная власть и прокуратура » Возбуждение уголовного дела в отношении руководителя
@@ -72,3 +82,7 @@ http://industrialconflicts.ru/adm/confmsg/?_a=view&id=1223854&_from=0
 так для всех пересечений, так как их много,
 скорее всего это нужно оформить в массив
 
+**************************************************************************
+
+Надо написать форму, в которую можно будет ввести дату (с понедельника по пятницу), чтобы программа выдала 
+проанализированный материал за определенный период.
