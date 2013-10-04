@@ -1,0 +1,1836 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>industrialconflicts.ru - управление</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/default.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/custom.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/jquery.asmselect.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/cupertino/jquery-ui-1.8.18.custom.css" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/js/dynatree/skin/ui.dynatree.css" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/js/jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/jquery.tooltip.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/style.css" />
+  <!--[if IE]>
+  <link type="text/css" href="/adm/xtpl/ie.css" rel="stylesheet" />
+  <![endif]-->
+  <script type="text/javascript" src="/adm/xtpl/js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery-ui-1.8.18.custom.min.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery-ui-timepicker-addon.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.ui.datepicker-ru.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.ui.timepicker-ru.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.dynatree.min.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/checktree.inc.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.pack.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.tooltip.js"></script>
+  <script type="text/javascript" src="/adm/noduslibs/ext/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="/adm/noduslibs/ext/ckeditor/alert.js"></script>
+  <script type="text/javascript">
+  //<![CDATA[
+    function configureHtmlOutput( ev )
+    {
+      var editor = ev.editor,
+        dataProcessor = editor.dataProcessor,
+        htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+
+      // Out self closing tags the HTML4 way, like <br>.
+      dataProcessor.writer.selfClosingEnd = '>';
+
+      // Make output formatting behave similar to FCKeditor
+      var dtd = CKEDITOR.dtd;
+      for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) )
+      {
+        dataProcessor.writer.setRules( e,
+          {
+            indent : true,
+            breakBeforeOpen : true,
+            breakAfterOpen : false,
+            breakBeforeClose : !dtd[ e ][ '#' ],
+            breakAfterClose : true
+          });
+      }
+
+      // Output properties as attributes, not styles.
+      htmlFilter.addRules({
+        elements :
+        {
+          $ : function( element )
+          {
+            // Output dimensions of images as width and height
+            if ( element.name == 'img' )
+            {
+              var style = element.attributes.style;
+
+              if ( style )
+              {
+                // Get the width from the style.
+                var match = /(?:^|\s)width\s*:\s*(\d+)px/i.exec( style ),
+                  width = match && match[1];
+
+                // Get the height from the style.
+                match = /(?:^|\s)height\s*:\s*(\d+)px/i.exec( style );
+                var height = match && match[1];
+
+                if ( width )
+                {
+                  element.attributes.style = element.attributes.style.replace( /(?:^|\s)width\s*:\s*(\d+)px;?/i , '' );
+                  element.attributes.width = width;
+                }
+
+                if ( height )
+                {
+                  element.attributes.style = element.attributes.style.replace( /(?:^|\s)height\s*:\s*(\d+)px;?/i , '' );
+                  element.attributes.height = height;
+                }
+              }
+            }
+
+            // Output alignment of paragraphs using align
+            if ( element.name == 'p' )
+            {
+              style = element.attributes.style;
+
+              if ( style )
+              {
+                // Get the align from the style.
+                match = /(?:^|\s)text-align\s*:\s*(\w*);/i.exec( style );
+                var align = match && match[1];
+
+                if ( align )
+                {
+                  element.attributes.style = element.attributes.style.replace( /(?:^|\s)text-align\s*:\s*(\w*);?/i , '' );
+                  element.attributes.align = align;
+                }
+              }
+            }
+
+            if ( !element.attributes.style )
+              delete element.attributes.style;
+
+            return element;
+          }
+        },
+
+        attributes :
+          {
+            style : function( value, element )
+            {
+              // Return #RGB for background and border colors
+              return convertRGBToHex( value );
+            }
+          }
+      } );
+    }
+
+    function convertRGBToHex( cssStyle )
+    {
+      return cssStyle.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue )
+        {
+          red = parseInt( red, 10 ).toString( 16 );
+          green = parseInt( green, 10 ).toString( 16 );
+          blue = parseInt( blue, 10 ).toString( 16 );
+          var color = [red, green, blue] ;
+
+          // Add padding zeros if the hex value is less than 0x10.
+          for ( var i = 0 ; i < color.length ; i++ )
+            color[i] = String( '0' + color[i] ).slice( -2 ) ;
+
+          return '#' + color.join( '' ) ;
+         });
+    }
+  //]]>
+  </script>
+  <script type="text/javascript">
+  function widgetchanged ( el ) { $(el).parents(".ui-widget-sub").eq(0).addClass("ui-widget-sub-changed"); }
+  $.fn.extend({
+    'edTableStyle':function(){
+      $("table.listing",this).each(function(){ $("tr:odd",this).addClass("odd"); $("tr:even",this).removeClass("odd"); });
+    },
+    'AC2':function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).AC2(options); }); return; }
+      var $this=$(".ui-ajax",this);
+      var $cont=$(this);
+      var $options=options?options:{};
+      var $xhr=false;
+      $("li a.ui-del",$cont).click(function(){ widgetchanged($this); $(this).parent().remove(); return false; });
+      var $ac=$this.autocomplete({
+        minLength: 1,
+        source: function(request,response) {
+          if($xhr) { $xhr.abort(); xhr=false; }
+          $this.removeClass(".ui-autocomplete-error");
+          $q={q:request.term,_nocache:(new Date()).valueOf()};
+          if($this.attr("rel")=='locality'||$this.attr("rel")=='locality[]') {
+            $q.locsubject=[];
+            var i=0;
+            $("[type=hidden][name^=locsubject]",$this.parents("form")[0]).each(function(){
+              $q.locsubject[i++]=$(this).val();
+            });
+          };
+          $xhr=$.ajax({
+            url: $this.attr("src"),
+            timeout: 5000,
+            dataType: "json",
+            data: $q,
+            success: function(data) {
+              response(data);
+            }
+            ,error: function() { $this.addClass(".ui-autocomplete-error"); }
+          });
+        },
+        select: function(event,ui) {
+          widgetchanged($this);
+          if(!$options.multi) $("ul li",$cont).remove();
+          if(!$("ul li input[value="+ui.item.id+"]",$cont).length)
+          {
+            $("ul",$cont).append('<li><input type="hidden" name="'+$this.attr("rel")+'" value="'+ui.item.id+'" /><span></span><a href="#" class="ui-del"></a></li>');
+            $("li:last span",$cont).html(ui.item.value);
+            $("li:last a.ui-del",$cont).click(function(){ $(this).parent().remove(); return false; });
+          }
+          $this.removeClass("ui-autocomplete-loading");
+          if($xhr) { $xhr.abort(); xhr=false; }
+          $this.val('');
+          return false;
+        }
+      });
+      if($ac.data("autocomplete"))
+        $ac.data("autocomplete")._renderItem = function( ul, item ) {
+         return $( "<li></li>" )
+             .data( "item.autocomplete", item )
+             .append( "<a>"+ item.label + "</a>" )
+             .appendTo( ul );
+         };
+
+    },
+    "DatePicker2":function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).DatePicker2(options); }); return; }
+      if(!options) options={};
+      options.changeMonth=true;
+      options.changeYear=true;
+      $(this).change(function(){widgetchanged(this);});
+      if($(this).attr("name")=='dt1') options.onSelect=function(){
+        widgetchanged(this);
+        var e2=$("input.datepicker[name=dt2]",$(this).parents("form")[0]);
+        if(e2.datepicker("getDate")&&$(this).datepicker("getDate"))
+         if(e2.datepicker("getDate")<$(this).datepicker("getDate"))
+          e2.val($(this).val());
+      };
+      if($(this).attr("name")=='dt2') options.onSelect=function(){
+        widgetchanged(this);
+        var e2=$("input.datepicker[name=dt1]",$(this).parents("form")[0]);
+        if(e2.datepicker("getDate")&&$(this).datepicker("getDate"))
+         if(e2.datepicker("getDate")>$(this).datepicker("getDate"))
+          e2.val($(this).val());
+      };
+      if($(this).is(".datetimepicker")) $(this).datetimepicker(options);
+      else $(this).datepicker(options);
+    },
+    "edCheckbox":function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).edCheckbox(options); }); return; }
+      if(!options) options={};
+      var $cont=$(this);
+      var $button=$(".ed-checkbox",$cont);
+      var $inp=$("input",$cont);
+      var $max=$button.is(".ed-checkbox-3state")?3:2;
+      var v0=toInt($($inp).val());
+      $button.removeClass("ed-checkbox-").removeClass("ed-checkbox-0").removeClass("ed-checkbox-1").removeClass("ed-checkbox-2").addClass("ed-checkbox-"+v0);
+      $cont.click(function(event){
+        widgetchanged($cont);
+        var v1,v2;
+        v1=toInt($($inp).val()?$($inp).val():0);
+        v2=(v1+1)%$max;
+        $($inp).val(v2);
+        $button.removeClass("ed-checkbox-"+v1).addClass("ed-checkbox-"+v2);
+        event.stopPropagation();
+        return false;
+      });
+    },
+    "edImgAnyfile":function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).edImgAnyfile(options); }); return; }
+      if(!options) options={};
+      var $cont=$(this);
+      $("a.ui-del",$cont).click(function(event){
+        var $li=$($(this).parents("li")[0]);
+        var $img=$("img",$li);
+        var $inp_del=$("input.del-hidden",$li);
+        var $v=$($inp_del).val()?"":"1";
+        $($inp_del).val($v);
+        if($v) { $li.addClass("ed-file-removed"); $img.slideUp(300); }
+        else { $li.removeClass("ed-file-removed"); $img.slideDown(300); }
+        event.stopPropagation();
+        return false;
+      });
+    },
+    "edSliderAjax":function(options){
+      $(this).each(function(){
+        if(!options) options={};
+        var $cont=$(this).parents(".ed-slider-cont");
+        if($cont.length)
+        {
+          $("a",this).click(function(event){
+            var $from=0;
+            $(".slider",$cont).addClass("ed-slider-loading");
+            
+            $xhr=$.ajax({
+              url: $(this).attr("href")+"&_ed_list=ajax",
+              timeout: 5000,
+              dataType: "html",
+              success: function(data) {
+                $cont.html(data);
+                $cont.edTableStyle();
+                $(".slider",$cont).edSliderAjax(options);
+                $(".slider",$cont).removeClass("ed-slider-loading").removeClass("ed-slider-error");
+                $("a.ed-box",$cont).edHrefBox();
+              },
+              error: function() {
+                $(".slider",$cont).removeClass("ed-slider-loading").addClass("ed-slider-error");
+              }
+            });
+            if(!$(this).parents(".ed-msx").length) if(history.pushState) history.pushState(null,null, $(this).attr("href"));
+            event.stopPropagation();
+            return false;
+          });
+        }
+      });
+    },
+    "edFilterSubmit":function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $form=$(this);
+        var $cont=$(".ed-slider-cont",$form.parents(".ed-list0").eq(0));
+        var $rel=$form.parents(".ed-msx").eq(0).attr("rel");
+        $("input[type=submit]",$form).click(function(event){
+          $form.edCheckTreeSync();
+          var $q=divFormSerialize($form);
+          $q=$q+"&_ed_msx="+$rel;
+          $(".slider",$cont).addClass("ed-slider-loading");
+          $xhr=$.ajax({
+            timeout: 5000,
+            dataType: "html",
+            data: $q,
+            success: function(data) {
+              $cont.html(data);
+              $cont.edTableStyle();
+              $(".slider",$cont).edSliderAjax();
+              $(".slider",$cont).removeClass("ed-slider-loading").removeClass("ed-slider-error");
+              $("a.ed-box",$cont).edHrefBox();
+            },
+            error: function() {
+              $(".slider",$cont).removeClass("ed-slider-loading").addClass("ed-slider-error");
+            }
+          });
+          event.stopPropagation();
+          return false;
+        });
+      });
+    },
+    "edMSX":function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        var $rel=$cont.attr("rel");
+        var $tbl1=$(".ed-list-active",$cont);
+        var $tbl0=$(".ed-list0",$cont);
+        $(".ed-filter-tbl",$cont).edFilterSubmit();
+        $(".ed-del",$tbl1).live("click",function(event){
+          event.stopPropagation();
+          $(this).parents("tr").eq(0).remove();
+          $cont.edTableStyle();
+          return false;
+        });
+        $(".ed-add",$tbl0).live("click",function(event){
+          event.stopPropagation();
+          var $id=$(this).attr("rel");
+          if($(".ed-add[rel="+$id+"]",$tbl1).length) { $(".ed-add[rel="+$id+"]",$tbl1).parents(".ed-rw").eq(0).addClass("o"); return false; }
+          $(this).parents("tr").eq(0).clone().appendTo($(".list-list",$tbl1)).addClass("o");
+          $(".ed-add[rel="+$id+"]",$tbl1).parent().append('<input type="hidden" name="'+$rel+'[]" value="'+$id+'" />');
+          $cont.edTableStyle();
+          $("a.ed-box",$cont).edHrefBox();
+          return false;
+        });
+        if($cont.is(".ed-msx-hides")) $(".ed-hides",this).click(function(){ $cont.toggleClass("o"); $(".ed-rw",$cont).removeClass("o"); return false; });
+      });
+    },
+    'edEditForm':function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        $cont.submit(function(){
+          $(".ed-filter-tbl",$cont).remove();
+        });
+      });
+    },
+    'edFilterForm':function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        $cont.submit(function(){
+          $cont.edCheckTreeSync();
+        });
+      });
+    },
+    'edMultiActions':function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        var $inps=$(".ed-multiaction-col input",$cont);
+        var $buttons=$(".ed-multiactions",$cont);
+        $inps.change(function(event){
+          if($inps.filter(":checked").length) $buttons.show();
+          else $buttons.hide();
+        });
+        $("form",$buttons).submit(function(event){
+          var $form=$(this);
+          $("input[name^=_ma]",this).remove();
+          $inps.filter(":checked").each(function(){
+            $form.prepend('<input type="hidden" name="_ma[]" value="'+$(this).val()+'" />');
+          });
+        });
+      });
+    },
+    'edHrefBox':function(){
+      $(this).each(function(){
+        if($(this).is(".ed-box-mini"))
+          $(this).tooltip({
+            bodyHandler: function() {
+              return $($(this).attr("href")).html();
+            },
+            showURL: false
+          });
+        else
+          $(this).fancybox({
+            'hideOnContentClick': true
+          });
+      });
+    },
+    'edTable':function(){
+      $(this).each(function(){
+        var $cont=$(this);
+        var $rel=$($cont).attr("rel");
+        $(".ed-del").live("click",function(){
+          $(this).parents("tr").eq(0).remove();
+          return false;
+        });
+        $(".ed-add").click(function(){
+          var html='<th><a class="ed-icon ed-del" href="#"></a></th>';
+          var html1,$i=0;
+          var $err=false;
+          $(".col",$(this).parents("tr").eq(0)).each(function(){
+            if($err) return;
+            if($("select",this).length) { /// basic select
+              html1='<input type="hidden" name="'+$rel+'['+$i+'][]" value="'+$("select",this).val()+'" /> '+$("option:selected",this).text();
+              $("select",this).val("");
+              $i++;
+            } else if($("input.ui-ajax",this).length) { /// ajax-select
+              var v2=$(".ui-ac li input",this).length?$(".ui-ac li input",this).val():"";
+              var n2=$(".ui-ac li span",this).length?$(".ui-ac li span",this).html():"";
+              html1='<input type="hidden" name="'+$rel+'['+$i+'][]" value="'+v2+'" /> '+n2;
+              $("input.ui-ajax",this).val("");
+              $(".ui-ac li",this).remove();
+              $i++;
+            } else if($("input",this).length) { /// text
+              html1='<input class="textinput" name="'+$rel+'['+$i+'][]" value="'+addslashes($("input",this).val())+'" />';
+              $("input",this).val("");
+              $i++;
+            }
+            html=html+'<td>'+html1+'</td>';
+          });
+          if($err) { $err.focus(); return false; }
+          $(this).parents("tr").eq(0).before('<tr>'+html+'</tr>');
+          return false;
+        });
+      });
+    }
+  });
+  function divFormSerialize ( container )
+  {
+    var $form=$("<form></form>");
+    $form.html($(container).clone());
+    return $form.serialize();
+  }
+  function toInt ( s )
+  {
+    var r=parseInt(s);
+    if(isNaN(r)) return 0;
+    return r;
+  }
+  function addslashes ( str ) { return str.replace('/(["\'\])/g', "\\$1").replace('/\0/g', "\\0"); }
+  </script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $(document).edTableStyle();
+    $("a.ed-box").edHrefBox();
+    $(".ui-ac-ms").AC2({multi:true});
+    $(".ui-ac-ss").AC2({multi:false});
+    $(".datepicker, .datetimepicker").DatePicker2();
+    $(".ui-button").button();
+    $(".ed-anyfile,.ed-img,.ed-files").edImgAnyfile();
+    $(".ed-checkbox-ui").edCheckbox();
+    $(".ed-check-tree").edCheckTree();
+    $("input:not(.ui-ajax)",".ed-filter-tbl").each(function(){
+      $(this).keypress(function(){widgetchanged(this);});
+    });
+    $(".slider").edSliderAjax();
+    $(".ed-msx").edMSX();
+    $("form.f-list-form").edEditForm();
+    $(".ed-f-filter").edFilterForm();
+    $(".ed-slider-cont").edMultiActions();
+    $(".ed-table").edTable();
+    $(".tops select").change(function(){ $(".tops").addClass("tops-changed"); });
+    $(".tops .slider a").click(function(){
+      if($(".tops").is(".tops-changed"))
+        if(!confirm("Переход на другую страницу сбросит выбранные места для топов. Вы уверены, что хотите перейти к другой страницу, не сохранив изменений?"))
+          return false;
+      return true;
+    });
+  });
+  </script>
+</head><body>
+
+  <div class="ui-layout-north">
+    <div id="listbook">
+    </div>
+    <div id="top">
+      <table class="container" width="100%">
+        <tr><td class="logo">
+            <h1 style="display:none;"><a href="/adm/"><img src="/xtpl/images/logo120515.png" width="168" height="70" alt="логотип" id="main_logo" /></a></h1>
+          </td><td class="usermenu">
+            <table><tr>
+              <td class="nav">04.10.2013 10:40</td>
+              <td class="nav"><a href="/adm/">Инфоцентр</a></td>
+              
+              <td class="nav"><a href="/admin/">Админка сайта</a></td>
+              <td class="nav"><a></a></td>
+              <td>Елецкая Елена Андреевна</td>
+              <td class="nav"><a href="?logout=1">Выход</a></td>
+            </tr></table>
+        </td></tr>
+      </table>
+    </div><!-- top:end -->
+    <div id="menu">
+      <table class="container" width="100%">
+        <tr><td class="left">
+            <div class="nav">
+              <!--a href="#" class="button"><img src="/adm/xtpl/i/ico_useful.gif" alt="Избранное" /></a-->
+              <b>
+              <a href="/adm/confmsg/" rel="list"><span>Сообщения</span></a>
+              </b>
+              
+              
+              <a href="/adm/conflictrq/" rel="list"><span>Сообщения корр.</span></a>
+              
+              
+              
+              <a href="/adm/feedback/" rel="list"><span>Сообщения польз.</span></a>
+              
+              
+              
+              <a href="/adm/confobject/" rel="list"><span>Объекты конфл.</span></a>
+              
+              
+              
+              <a href="/adm/confsubject/" rel="list"><span>Субъекты конфл.</span></a>
+              
+              
+              
+              <a href="/adm/profunion/" rel="list"><span>Профсоюзы</span></a>
+              
+              
+              
+              <a href="/adm/conf_s/" rel="list"><span>Рубрики</span></a>
+              
+              
+              
+              <a href="/adm/okved/" rel="list"><span>ОКВЭД</span></a>
+              
+              
+              
+              <a href="/adm/locsubject/" rel="list"><span>Субъекты РФ</span></a>
+              
+              
+              
+              <a href="/adm/locality/" rel="list"><span>Насел. пункты</span></a>
+              
+              
+              
+              <a href="/adm/confsrc/" rel="list"><span>Источники</span></a>
+              
+              
+              
+              <a href="/adm/innerdocs/" rel="list"><span>Руководства</span></a>
+            </div>
+          </td><!--td class="right">
+            <form action="list.php" method="post" id="formsearch">
+              <div class="search">
+                <table><tr><td class="input"><input id="find" name="find" type="text" value="" /></td><td class="button"><a href="#"><img onclick="$('#formsearch').submit();" src="/adm/xtpl/i/search.gif" alt="Искать" /></a></td>
+                <td><a href="#" class="extra" onclick="$('#formsearch').submit();"><img src="/adm/xtpl/i/search_extra.gif" alt="Расширенный поиск" /></a></td></tr></table>
+              </div>
+            </form>
+        </td--></tr>
+      </table>
+    </div><!-- menu:end -->
+  </div>
+
+  <div id="content">
+    <table class="container" width="100%"><tr><td class="leftcol">
+      <div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-corner-top ui-state-default ui-state-active"><a href="/adm/confmsg/"><span>Список</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="/adm/confmsg/?_a=add"><span>Создание</span></a></li>
+    
+    
+    
+    
+  </ul>
+</div>
+
+<div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-corner-top ui-state-default "><a href="?&_filter=8"><span>Новые</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="?&_filter=3"><span>В работе</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="?&_filter=4"><span>Обработанные</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="?&_filter=2"><span>Непривязанные к событиям</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default ui-state-active"><a href="?&_filter=5"><span>Шум</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="?&_filter=6"><span>Прочее</span></a></li>
+  </ul>
+</div>
+
+
+<div class="ed-slider-cont">
+<div class="slider">
+  
+  <span>с 1 по 20 (всего 922)</span>
+  <a href="?&_filter=5&from=20&" class="next">><span></span></a>
+  <a href="?&_filter=5&from=902&" class="end">>><span></span></a>
+</div>
+
+<table class="listing list-list"><tr>
+  <th></th>
+  <th></th>
+  <th>ID</th>
+  <th>Дата</th><th>Заголовок</th><th>Субъекты РФ</th><th>Населенные пункты</th><th>Другие страны</th><th>События</th><th>Рубрики по глоссарию</th><th>Опубликовано</th>
+</tr>
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1235161&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1235161&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1235161&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1235161" /></td>
+  <td class="ed-id-col">1235161</td>
+  <td>04.10.2013&nbsp;08:47
+
+
+
+</td><td>На автодороге Пермь – Екатеринбург произошло массовое ДТП: дорога перекрыта
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;УФО</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1235161"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1235161">
+    <div class="body"><h2>Перекрытие трассы</h2><p><i>"перекрытие<<трассы"~2</i></p> ...  – Екатеринбург произошло массовое ДТП: дорога <b>перекрыта</b> На 336 км автодороги Пермь ...  двое получили травмы. Движение на <b>трассе</b> <b>перекрыто</b>. Как сообщили Накануне.RU в пресс ...  время движение на месте ДТП <b>перекрыто</b>, транспортный поток пущен через поселок ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы протестных действий&nbsp;&raquo;&nbsp;Перекрытие трассы</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1235081&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1235081&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1235081&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1235081" /></td>
+  <td class="ed-id-col">1235081</td>
+  <td>04.10.2013&nbsp;09:16
+
+
+
+</td><td>В Мексиканском заливе эвакуируют нефтегазовые платформы из-за шторма
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СЗФО&nbsp;&raquo;&nbsp;Санкт-Петербург</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1235081"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1235081">
+    <div class="body"><h2>Забастовка</h2><p><i>"Забастовка" | "Остановка работы" | "Прекращение работы" </i></p> ...  и газа в акватории Мексиканского залива, останавливают <b>работу</b> объектов, которые оказались на пути ... , компания Anadarko Petroleum Corp заявила о <b>прекращении</b> <b>работы</b> на четырех платформах, с которых полностью ... , компания Anadarko Petroleum Corp заявила о <b>прекращении</b> <b>работы</b> на четырех платформах, с которых полностью ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы трудового конфликта&nbsp;&raquo;&nbsp;Забастовка</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1234448&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1234448&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1234448&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1234448" /></td>
+  <td class="ed-id-col">1234448</td>
+  <td>04.10.2013&nbsp;00:00
+
+
+
+</td><td>ПРЕДСЕДАТЕЛЬ О ВТО
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СФО&nbsp;&raquo;&nbsp;Красноярский край</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1234448"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1234448">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  Россия вступила во Всемирную торговую <b>организацию</b>, созданную для либерализации международной торговли ...  на эту тему председателя Федерации <b>профсоюзов</b> Красноярского края Олега Исянова телекомпании ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1234446&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1234446&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1234446&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1234446" /></td>
+  <td class="ed-id-col">1234446</td>
+  <td>04.10.2013&nbsp;07:00
+
+
+
+</td><td>Анонсы событий и мероприятий на 4 октября. УрФО
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;УФО</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1234446"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1234446">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ... :00 в Народном университете Челябинской областной <b>организации</b> Общество «Знание» России (ул. Васенко ... . Красина, 53, малый зал Федерации <b>профсоюзов</b> Курганской области) начнется конференция на ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1234242&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1234242&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1234242&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1234242" /></td>
+  <td class="ed-id-col">1234242</td>
+  <td>04.10.2013&nbsp;08:00
+
+
+
+</td><td>Правила игры
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;ЦФО&nbsp;&raquo;&nbsp;Москва</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1234242"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1234242">
+    <div class="body"><h2>Забастовка</h2><p><i>"Забастовка" | "Остановка работы" | "Прекращение работы" </i></p> ...  независимый эксперт Дмитрий Ъ-Тратас На <b>остановке</b> <b>работы</b> американского правительства сегодня сконцентрировано внимание ...  малого на 4%, но после восстановления <b>работы</b> правительства на рынке началось ралли ...  себя точно так же и без <b>остановки</b> <b>работы</b> правительства: уверенный рост в первые пять ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы трудового конфликта&nbsp;&raquo;&nbsp;Забастовка</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1234187&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1234187&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1234187&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1234187" /></td>
+  <td class="ed-id-col">1234187</td>
+  <td>04.10.2013&nbsp;01:10
+
+
+
+</td><td>Мировые цены на нефть снизились
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СЗФО&nbsp;&raquo;&nbsp;Санкт-Петербург</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1234187"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1234187">
+    <div class="body"><h2>Забастовка</h2><p><i>"Забастовка" | "Остановка работы" | "Прекращение работы" </i></p> ...  бюджетного кризиса в США, который привел к <b>остановке</b> <b>работы</b> ряда правительственных учреждений, свидетельствуют данные ...  бюджетного кризиса в США, который привел к <b>остановке</b> <b>работы</b> ряда правительственных учреждений, свидетельствуют данные ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы трудового конфликта&nbsp;&raquo;&nbsp;Забастовка</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233680&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233680&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233680&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233680" /></td>
+  <td class="ed-id-col">1233680</td>
+  <td>03.10.2013&nbsp;18:56
+
+
+
+</td><td>&quot;Спросить с террористов, как с чиновников&quot;: северокавказские эксперты об инициативе Путина
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233680"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233680">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  эксперты. Исалмагомед Набиев, председатель независимого <b>профсоюза</b> предпринимателей и водителей Дагестана: Компенсировать ущерб ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233629&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233629&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233629&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233629" /></td>
+  <td class="ed-id-col">1233629</td>
+  <td>03.10.2013&nbsp;16:04
+
+
+
+</td><td>Московский метрополитен проверит независимая комиссия
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СЗФО&nbsp;&raquo;&nbsp;Вологодская область</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233629"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233629">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  и злым было выступление представителя независимого <b>профсоюза</b> метрополитена Светланы Разиной. Она сыпала ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233364&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233364&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233364&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233364" /></td>
+  <td class="ed-id-col">1233364</td>
+  <td>03.10.2013&nbsp;16:35
+
+
+
+</td><td>Белорусский оппозиционер умер, не дождавшись донорской печени
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СЗФО&nbsp;&raquo;&nbsp;Санкт-Петербург</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233364"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233364">
+    <div class="body"><h2>Забастовка</h2><p><i>"Забастовка" | "Остановка работы" | "Прекращение работы" </i></p> ...  чернобыльских акций протеста 1988 года, <b>забастовка</b> водителей городских автобусов в Минске 1989 ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы трудового конфликта&nbsp;&raquo;&nbsp;Забастовка</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233296&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233296&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233296&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233296" /></td>
+  <td class="ed-id-col">1233296</td>
+  <td>03.10.2013&nbsp;13:47
+
+
+
+</td><td>Форум профсоюзной молодежи Северо-Запада
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СЗФО&nbsp;&raquo;&nbsp;Ленинградская область</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233296"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233296">
+    <div class="body"><h2>Акция протеста</h2><p><i>(акция протеста | протест | протестные действия) & работников предприятия | акция протеста  | протест | протестные действия << работников | "акция протеста | протест | протестные действия "
+</i></p> ... местной власти, Гострудинспекцию, прокуратуру, организация <b>протестных</b> <b>акций</b>. Заместитель председателя ФНПР Галина  ... необходимо прописать, что на <b>работников</b> данного конкретного <b>предприятия</b> распространяется <b>действие</b> Генсоглашения, Отраслевого соглашения ... <br /><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  <b>профсоюзных</b> <b>лидеров</b>,  ... <b>профсоюзного</b> актива, которая будет способствовать победе <b>профсоюза</b> в СТК: привлечение ППО и вышестоящих <b>организации</b> <b>профсоюза</b> ... <b>профсоюзов</b> и <b>профсоюзной</b> экспертизе социальных законопроектов. Так, например, только благодаря <b>профсоюзной</b> ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы протестных действий&nbsp;&raquo;&nbsp;Акция протеста</span></li><li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233260&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233260&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233260&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233260" /></td>
+  <td class="ed-id-col">1233260</td>
+  <td>03.10.2013&nbsp;17:52
+
+
+
+</td><td>Пенсионную реформу надо притормозить
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;ЦФО&nbsp;&raquo;&nbsp;Москва</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233260"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233260">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер < профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  и подробно обсудить все новации с работодателями и <b>профсоюзами</b>. Об этом говорится в заявлении Национальной ...  включить все заинтересованные стороны — работодатели, <b>профсоюзы</b>, негосударственные пенсионные фонды и управляющие компании ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233195&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233195&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233195&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233195" /></td>
+  <td class="ed-id-col">1233195</td>
+  <td>03.10.2013&nbsp;16:49
+
+
+
+</td><td>Путин: &quot;Российская торговля может обойтись без мигрантов&quot;
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;ЦФО&nbsp;&raquo;&nbsp;Москва</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233195"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233195">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ... , запретив детям нелегалов посещать школы В <b>профсоюзе</b> мигрантов отреагировали на законопроект депутата ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233105&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233105&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233105&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233105" /></td>
+  <td class="ed-id-col">1233105</td>
+  <td>03.10.2013&nbsp;00:00
+
+
+
+</td><td>Полста тысяч
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;ЦФО</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233105"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233105">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  тысяч человек вышли на демонстрацию <b>профсоюзов</b> в Манчестере, протестуя против политической программы ... », — заявила СМИ глава Конгресса британских <b>профсоюзов</b> Франсиз О´Грэди. Несмотря на многочисленность ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1233052&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1233052&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1233052&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1233052" /></td>
+  <td class="ed-id-col">1233052</td>
+  <td>03.10.2013&nbsp;16:58
+
+
+
+</td><td>Мэр подмосковного Жуковского реструктуризует администрацию
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1233052"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1233052">
+    <div class="body"><h2>Коллективный трудовой спор</h2><p><i>"Трудовой << спор"~2</i></p> ...  восстановиться на прежнем рабочем месте - <b>трудовой</b> <b>спор</b> по иску Седунова рассматривается в городском ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы трудового конфликта&nbsp;&raquo;&nbsp;Коллективный трудовой спор</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1232820&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1232820&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1232820&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1232820" /></td>
+  <td class="ed-id-col">1232820</td>
+  <td>03.10.2013&nbsp;14:45
+
+
+
+</td><td>Личные данные граждан Украины захватили рейдеры
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СЗФО&nbsp;&raquo;&nbsp;Санкт-Петербург</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1232820"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1232820">
+    <div class="body"><h2>Забастовка</h2><p><i>"Забастовка" | "Остановка работы" | "Прекращение работы" </i></p> ...  серверов, чем и послужили причиной полной <b>остановки</b> <b>работы</b> всех реестров, сказано в сообщении. Кроме ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Формы трудового конфликта&nbsp;&raquo;&nbsp;Забастовка</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1232643&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1232643&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1232643&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1232643" /></td>
+  <td class="ed-id-col">1232643</td>
+  <td>03.10.2013&nbsp;14:33
+
+
+
+</td><td>В Госдуму внесен законопроект о запрете принимать в школы детей мигрантов-неплательщиков налогов
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;ЦФО&nbsp;&raquo;&nbsp;Москва</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1232643"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1232643">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  <b>Профсоюз</b> трудящихся мигрантов негативно оценил инициативу депутатов. По словам главы <b>организации</b> Рената ... , запретив детям нелегалов посещать школы В <b>профсоюзе</b> мигрантов отреагировали на законопроект депутата ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1232604&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1232604&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1232604&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1232604" /></td>
+  <td class="ed-id-col">1232604</td>
+  <td>03.10.2013&nbsp;15:30
+
+
+
+</td><td>Виктор Калинин: «Международные стандарты социальной ответственности работодателей должны быть внедрены и в России»
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;ЦФО&nbsp;&raquo;&nbsp;Москва</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1232604"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1232604">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  руководителей и <b>профсоюзных</b> <b>организаций</b> пересекаются, считает наш эксперт, председатель Ленинградской областной <b>организации</b> <b>профсоюза</b> машиностроителей России ... , но меня, как представителя <b>профсоюзной</b> <b>организации</b>, руководителя территориального <b>профсоюза</b>, больше интересует рубрика «Забота ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1232493&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1232493&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1232493&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1232493" /></td>
+  <td class="ed-id-col">1232493</td>
+  <td>03.10.2013&nbsp;00:00
+
+
+
+</td><td>Оккупация
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;ЦФО</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1232493"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1232493">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ... , в рамках Всемирного дня действий <b>профсоюзов</b> 7 октября Федерация <b>профсоюзов</b> Камчатки будет также поднимать ...  Камчатке. Поскольку сегодня, по мнению <b>профсоюзов</b>, население Камчатки, которое всегда характеризовалось ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1232330&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1232330&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1232330&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1232330" /></td>
+  <td class="ed-id-col">1232330</td>
+  <td>03.10.2013&nbsp;13:11
+
+
+
+</td><td>Информация о нарушениях в ООО «Водоканал»
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;СФО&nbsp;&raquo;&nbsp;Кемеровская область</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1232330"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1232330">
+    <div class="body"><h2>Профсоюзная организация</h2><p><i>"профсоюз" | "профсоюзная организация" | "профсоюзная << ячейка" ~2 | "активист << профсоюза" ~2 | "лидер << профсоюза" ~2 | "лидер << профорганизации" ~2</i></p> ...  кодекса и п. п.7.9 ГОСТ 12.0.004.90 «<b>Организация</b> обучения безопасности труда. Общие Положения ... , 7 Ноября и привокзальной котельной не согласована с <b>профсоюзом</b>. 5. В нарушение абз.9 ч.2 ст.22 Трудового ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+
+<tr class="ed-logtyp-">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont"><a class="ed-icon ed-del" href="?_a=del&id=1231994&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-edit" href="?_a=edit&id=1231994&_from=0"></a></div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="?_a=view&id=1231994&_from=0"></a></div>
+    </div>
+  </th>
+  <td class="ed-multiaction-col"><input type="checkbox" name="_ma[]" value="1231994" /></td>
+  <td class="ed-id-col">1231994</td>
+  <td>03.10.2013&nbsp;12:30
+
+
+
+</td><td>Офисы предприятий Анатолия Павлова «осматривает» полиция
+
+
+
+</td><td><li><span>РФ&nbsp;&raquo;&nbsp;УФО&nbsp;&raquo;&nbsp;Свердловская область</span></li>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td><a class="ed-icon ed-hl-context ed-box ed-box-mini" href="#ed_hl_context_confmsg_1231994"></a>
+  <div style="display:none"><div id="ed_hl_context_confmsg_1231994">
+    <div class="body"><h2>Прохождение процедуры банкротства</h2><p><i>"банкротство предприятия | завода | фабрики" | "процедура банкротства"</i></p> ...  <b>предприятий</b> холдинга «Финпромко» стал ход ликвидации задолженности перед кредиторами. Напомним, <b>процедура</b> <b>банкротства</b> компании ... ». «Это новая задолженность «Пневмостроймашины». В рамках <b>банкротства</b> у <b>завода</b> тоже остается долг перед нами ...</div>
+  </div></div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <li><span>Причины трудовых конфликтов&nbsp;&raquo;&nbsp;Прохождение процедуры банкротства</span></li>
+
+
+
+</td><td><div class="ed-checkbox ed-checkbox-0"></div>
+
+
+
+</td>
+</tr>
+</table>
+<div class="slider">
+  
+  <span>с 1 по 20 (всего 922)</span>
+  <a href="?&_filter=5&from=20&" class="next">><span></span></a>
+  <a href="?&_filter=5&from=902&" class="end">>><span></span></a>
+</div>
+<div class="ed-multiactions" style="display:none">
+<form method="post" class="ed-f-noise">
+<input type="hidden" name="_set_step" value="200" />
+<input type="submit" class="ui-button ui-widget ui-state-default ui-corner-all" value="Обозначить как &quot;Шум&quot;" />
+</form>
+<form method="post" class="ed-f-unsorted">
+<input type="hidden" name="_set_unsorted" value="1" />
+<input type="submit" class="ui-button ui-widget ui-state-default ui-corner-all" value="Обозначить как &quot;Прочее&quot;" />
+</form>
+</div>
+
+</div>
+
+      
+      
+
+      
+      
+    </td></tr></table>
+  </div>
+
+  <div id="bottom">
+    <table class="container" width="100%">
+      <tr><td class="left">
+        <!--p class="copyright"></p-->
+      </td></tr>
+    </table>
+  </div><!-- content:end -->
+</body>
+</html>
