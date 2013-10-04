@@ -1,0 +1,779 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>industrialconflicts.ru - управление</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/default.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/custom.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/jquery.asmselect.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/cupertino/jquery-ui-1.8.18.custom.css" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/js/dynatree/skin/ui.dynatree.css" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/js/jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/css/jquery.tooltip.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/adm/xtpl/style.css" />
+  <!--[if IE]>
+  <link type="text/css" href="/adm/xtpl/ie.css" rel="stylesheet" />
+  <![endif]-->
+  <script type="text/javascript" src="/adm/xtpl/js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery-ui-1.8.18.custom.min.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery-ui-timepicker-addon.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.ui.datepicker-ru.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.ui.timepicker-ru.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.dynatree.min.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/checktree.inc.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.fancybox-1.3.4/jquery.fancybox-1.3.4.pack.js"></script>
+  <script type="text/javascript" src="/adm/xtpl/js/jquery.tooltip.js"></script>
+  <script type="text/javascript" src="/adm/noduslibs/ext/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="/adm/noduslibs/ext/ckeditor/alert.js"></script>
+  <script type="text/javascript">
+  //<![CDATA[
+    function configureHtmlOutput( ev )
+    {
+      var editor = ev.editor,
+        dataProcessor = editor.dataProcessor,
+        htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+
+      // Out self closing tags the HTML4 way, like <br>.
+      dataProcessor.writer.selfClosingEnd = '>';
+
+      // Make output formatting behave similar to FCKeditor
+      var dtd = CKEDITOR.dtd;
+      for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) )
+      {
+        dataProcessor.writer.setRules( e,
+          {
+            indent : true,
+            breakBeforeOpen : true,
+            breakAfterOpen : false,
+            breakBeforeClose : !dtd[ e ][ '#' ],
+            breakAfterClose : true
+          });
+      }
+
+      // Output properties as attributes, not styles.
+      htmlFilter.addRules({
+        elements :
+        {
+          $ : function( element )
+          {
+            // Output dimensions of images as width and height
+            if ( element.name == 'img' )
+            {
+              var style = element.attributes.style;
+
+              if ( style )
+              {
+                // Get the width from the style.
+                var match = /(?:^|\s)width\s*:\s*(\d+)px/i.exec( style ),
+                  width = match && match[1];
+
+                // Get the height from the style.
+                match = /(?:^|\s)height\s*:\s*(\d+)px/i.exec( style );
+                var height = match && match[1];
+
+                if ( width )
+                {
+                  element.attributes.style = element.attributes.style.replace( /(?:^|\s)width\s*:\s*(\d+)px;?/i , '' );
+                  element.attributes.width = width;
+                }
+
+                if ( height )
+                {
+                  element.attributes.style = element.attributes.style.replace( /(?:^|\s)height\s*:\s*(\d+)px;?/i , '' );
+                  element.attributes.height = height;
+                }
+              }
+            }
+
+            // Output alignment of paragraphs using align
+            if ( element.name == 'p' )
+            {
+              style = element.attributes.style;
+
+              if ( style )
+              {
+                // Get the align from the style.
+                match = /(?:^|\s)text-align\s*:\s*(\w*);/i.exec( style );
+                var align = match && match[1];
+
+                if ( align )
+                {
+                  element.attributes.style = element.attributes.style.replace( /(?:^|\s)text-align\s*:\s*(\w*);?/i , '' );
+                  element.attributes.align = align;
+                }
+              }
+            }
+
+            if ( !element.attributes.style )
+              delete element.attributes.style;
+
+            return element;
+          }
+        },
+
+        attributes :
+          {
+            style : function( value, element )
+            {
+              // Return #RGB for background and border colors
+              return convertRGBToHex( value );
+            }
+          }
+      } );
+    }
+
+    function convertRGBToHex( cssStyle )
+    {
+      return cssStyle.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue )
+        {
+          red = parseInt( red, 10 ).toString( 16 );
+          green = parseInt( green, 10 ).toString( 16 );
+          blue = parseInt( blue, 10 ).toString( 16 );
+          var color = [red, green, blue] ;
+
+          // Add padding zeros if the hex value is less than 0x10.
+          for ( var i = 0 ; i < color.length ; i++ )
+            color[i] = String( '0' + color[i] ).slice( -2 ) ;
+
+          return '#' + color.join( '' ) ;
+         });
+    }
+  //]]>
+  </script>
+  <script type="text/javascript">
+  function widgetchanged ( el ) { $(el).parents(".ui-widget-sub").eq(0).addClass("ui-widget-sub-changed"); }
+  $.fn.extend({
+    'edTableStyle':function(){
+      $("table.listing",this).each(function(){ $("tr:odd",this).addClass("odd"); $("tr:even",this).removeClass("odd"); });
+    },
+    'AC2':function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).AC2(options); }); return; }
+      var $this=$(".ui-ajax",this);
+      var $cont=$(this);
+      var $options=options?options:{};
+      var $xhr=false;
+      $("li a.ui-del",$cont).click(function(){ widgetchanged($this); $(this).parent().remove(); return false; });
+      var $ac=$this.autocomplete({
+        minLength: 1,
+        source: function(request,response) {
+          if($xhr) { $xhr.abort(); xhr=false; }
+          $this.removeClass(".ui-autocomplete-error");
+          $q={q:request.term,_nocache:(new Date()).valueOf()};
+          if($this.attr("rel")=='locality'||$this.attr("rel")=='locality[]') {
+            $q.locsubject=[];
+            var i=0;
+            $("[type=hidden][name^=locsubject]",$this.parents("form")[0]).each(function(){
+              $q.locsubject[i++]=$(this).val();
+            });
+          };
+          $xhr=$.ajax({
+            url: $this.attr("src"),
+            timeout: 5000,
+            dataType: "json",
+            data: $q,
+            success: function(data) {
+              response(data);
+            }
+            ,error: function() { $this.addClass(".ui-autocomplete-error"); }
+          });
+        },
+        select: function(event,ui) {
+          widgetchanged($this);
+          if(!$options.multi) $("ul li",$cont).remove();
+          if(!$("ul li input[value="+ui.item.id+"]",$cont).length)
+          {
+            $("ul",$cont).append('<li><input type="hidden" name="'+$this.attr("rel")+'" value="'+ui.item.id+'" /><span></span><a href="#" class="ui-del"></a></li>');
+            $("li:last span",$cont).html(ui.item.value);
+            $("li:last a.ui-del",$cont).click(function(){ $(this).parent().remove(); return false; });
+          }
+          $this.removeClass("ui-autocomplete-loading");
+          if($xhr) { $xhr.abort(); xhr=false; }
+          $this.val('');
+          return false;
+        }
+      });
+      if($ac.data("autocomplete"))
+        $ac.data("autocomplete")._renderItem = function( ul, item ) {
+         return $( "<li></li>" )
+             .data( "item.autocomplete", item )
+             .append( "<a>"+ item.label + "</a>" )
+             .appendTo( ul );
+         };
+
+    },
+    "DatePicker2":function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).DatePicker2(options); }); return; }
+      if(!options) options={};
+      options.changeMonth=true;
+      options.changeYear=true;
+      $(this).change(function(){widgetchanged(this);});
+      if($(this).attr("name")=='dt1') options.onSelect=function(){
+        widgetchanged(this);
+        var e2=$("input.datepicker[name=dt2]",$(this).parents("form")[0]);
+        if(e2.datepicker("getDate")&&$(this).datepicker("getDate"))
+         if(e2.datepicker("getDate")<$(this).datepicker("getDate"))
+          e2.val($(this).val());
+      };
+      if($(this).attr("name")=='dt2') options.onSelect=function(){
+        widgetchanged(this);
+        var e2=$("input.datepicker[name=dt1]",$(this).parents("form")[0]);
+        if(e2.datepicker("getDate")&&$(this).datepicker("getDate"))
+         if(e2.datepicker("getDate")>$(this).datepicker("getDate"))
+          e2.val($(this).val());
+      };
+      if($(this).is(".datetimepicker")) $(this).datetimepicker(options);
+      else $(this).datepicker(options);
+    },
+    "edCheckbox":function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).edCheckbox(options); }); return; }
+      if(!options) options={};
+      var $cont=$(this);
+      var $button=$(".ed-checkbox",$cont);
+      var $inp=$("input",$cont);
+      var $max=$button.is(".ed-checkbox-3state")?3:2;
+      var v0=toInt($($inp).val());
+      $button.removeClass("ed-checkbox-").removeClass("ed-checkbox-0").removeClass("ed-checkbox-1").removeClass("ed-checkbox-2").addClass("ed-checkbox-"+v0);
+      $cont.click(function(event){
+        widgetchanged($cont);
+        var v1,v2;
+        v1=toInt($($inp).val()?$($inp).val():0);
+        v2=(v1+1)%$max;
+        $($inp).val(v2);
+        $button.removeClass("ed-checkbox-"+v1).addClass("ed-checkbox-"+v2);
+        event.stopPropagation();
+        return false;
+      });
+    },
+    "edImgAnyfile":function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).edImgAnyfile(options); }); return; }
+      if(!options) options={};
+      var $cont=$(this);
+      $("a.ui-del",$cont).click(function(event){
+        var $li=$($(this).parents("li")[0]);
+        var $img=$("img",$li);
+        var $inp_del=$("input.del-hidden",$li);
+        var $v=$($inp_del).val()?"":"1";
+        $($inp_del).val($v);
+        if($v) { $li.addClass("ed-file-removed"); $img.slideUp(300); }
+        else { $li.removeClass("ed-file-removed"); $img.slideDown(300); }
+        event.stopPropagation();
+        return false;
+      });
+    },
+    "edSliderAjax":function(options){
+      $(this).each(function(){
+        if(!options) options={};
+        var $cont=$(this).parents(".ed-slider-cont");
+        if($cont.length)
+        {
+          $("a",this).click(function(event){
+            var $from=0;
+            $(".slider",$cont).addClass("ed-slider-loading");
+            
+            $xhr=$.ajax({
+              url: $(this).attr("href")+"&_ed_list=ajax",
+              timeout: 5000,
+              dataType: "html",
+              success: function(data) {
+                $cont.html(data);
+                $cont.edTableStyle();
+                $(".slider",$cont).edSliderAjax(options);
+                $(".slider",$cont).removeClass("ed-slider-loading").removeClass("ed-slider-error");
+                $("a.ed-box",$cont).edHrefBox();
+              },
+              error: function() {
+                $(".slider",$cont).removeClass("ed-slider-loading").addClass("ed-slider-error");
+              }
+            });
+            if(!$(this).parents(".ed-msx").length) if(history.pushState) history.pushState(null,null, $(this).attr("href"));
+            event.stopPropagation();
+            return false;
+          });
+        }
+      });
+    },
+    "edFilterSubmit":function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $form=$(this);
+        var $cont=$(".ed-slider-cont",$form.parents(".ed-list0").eq(0));
+        var $rel=$form.parents(".ed-msx").eq(0).attr("rel");
+        $("input[type=submit]",$form).click(function(event){
+          $form.edCheckTreeSync();
+          var $q=divFormSerialize($form);
+          $q=$q+"&_ed_msx="+$rel;
+          $(".slider",$cont).addClass("ed-slider-loading");
+          $xhr=$.ajax({
+            timeout: 5000,
+            dataType: "html",
+            data: $q,
+            success: function(data) {
+              $cont.html(data);
+              $cont.edTableStyle();
+              $(".slider",$cont).edSliderAjax();
+              $(".slider",$cont).removeClass("ed-slider-loading").removeClass("ed-slider-error");
+              $("a.ed-box",$cont).edHrefBox();
+            },
+            error: function() {
+              $(".slider",$cont).removeClass("ed-slider-loading").addClass("ed-slider-error");
+            }
+          });
+          event.stopPropagation();
+          return false;
+        });
+      });
+    },
+    "edMSX":function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        var $rel=$cont.attr("rel");
+        var $tbl1=$(".ed-list-active",$cont);
+        var $tbl0=$(".ed-list0",$cont);
+        $(".ed-filter-tbl",$cont).edFilterSubmit();
+        $(".ed-del",$tbl1).live("click",function(event){
+          event.stopPropagation();
+          $(this).parents("tr").eq(0).remove();
+          $cont.edTableStyle();
+          return false;
+        });
+        $(".ed-add",$tbl0).live("click",function(event){
+          event.stopPropagation();
+          var $id=$(this).attr("rel");
+          if($(".ed-add[rel="+$id+"]",$tbl1).length) { $(".ed-add[rel="+$id+"]",$tbl1).parents(".ed-rw").eq(0).addClass("o"); return false; }
+          $(this).parents("tr").eq(0).clone().appendTo($(".list-list",$tbl1)).addClass("o");
+          $(".ed-add[rel="+$id+"]",$tbl1).parent().append('<input type="hidden" name="'+$rel+'[]" value="'+$id+'" />');
+          $cont.edTableStyle();
+          $("a.ed-box",$cont).edHrefBox();
+          return false;
+        });
+        if($cont.is(".ed-msx-hides")) $(".ed-hides",this).click(function(){ $cont.toggleClass("o"); $(".ed-rw",$cont).removeClass("o"); return false; });
+      });
+    },
+    'edEditForm':function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        $cont.submit(function(){
+          $(".ed-filter-tbl",$cont).remove();
+        });
+      });
+    },
+    'edFilterForm':function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        $cont.submit(function(){
+          $cont.edCheckTreeSync();
+        });
+      });
+    },
+    'edMultiActions':function(options){
+      if(!options) options={};
+      $(this).each(function(){
+        var $cont=$(this);
+        var $inps=$(".ed-multiaction-col input",$cont);
+        var $buttons=$(".ed-multiactions",$cont);
+        $inps.change(function(event){
+          if($inps.filter(":checked").length) $buttons.show();
+          else $buttons.hide();
+        });
+        $("form",$buttons).submit(function(event){
+          var $form=$(this);
+          $("input[name^=_ma]",this).remove();
+          $inps.filter(":checked").each(function(){
+            $form.prepend('<input type="hidden" name="_ma[]" value="'+$(this).val()+'" />');
+          });
+        });
+      });
+    },
+    'edHrefBox':function(){
+      $(this).each(function(){
+        if($(this).is(".ed-box-mini"))
+          $(this).tooltip({
+            bodyHandler: function() {
+              return $($(this).attr("href")).html();
+            },
+            showURL: false
+          });
+        else
+          $(this).fancybox({
+            'hideOnContentClick': true
+          });
+      });
+    },
+    'edTable':function(){
+      $(this).each(function(){
+        var $cont=$(this);
+        var $rel=$($cont).attr("rel");
+        $(".ed-del").live("click",function(){
+          $(this).parents("tr").eq(0).remove();
+          return false;
+        });
+        $(".ed-add").click(function(){
+          var html='<th><a class="ed-icon ed-del" href="#"></a></th>';
+          var html1,$i=0;
+          var $err=false;
+          $(".col",$(this).parents("tr").eq(0)).each(function(){
+            if($err) return;
+            if($("select",this).length) { /// basic select
+              html1='<input type="hidden" name="'+$rel+'['+$i+'][]" value="'+$("select",this).val()+'" /> '+$("option:selected",this).text();
+              $("select",this).val("");
+              $i++;
+            } else if($("input.ui-ajax",this).length) { /// ajax-select
+              var v2=$(".ui-ac li input",this).length?$(".ui-ac li input",this).val():"";
+              var n2=$(".ui-ac li span",this).length?$(".ui-ac li span",this).html():"";
+              html1='<input type="hidden" name="'+$rel+'['+$i+'][]" value="'+v2+'" /> '+n2;
+              $("input.ui-ajax",this).val("");
+              $(".ui-ac li",this).remove();
+              $i++;
+            } else if($("input",this).length) { /// text
+              html1='<input class="textinput" name="'+$rel+'['+$i+'][]" value="'+addslashes($("input",this).val())+'" />';
+              $("input",this).val("");
+              $i++;
+            }
+            html=html+'<td>'+html1+'</td>';
+          });
+          if($err) { $err.focus(); return false; }
+          $(this).parents("tr").eq(0).before('<tr>'+html+'</tr>');
+          return false;
+        });
+      });
+    }
+  });
+  function divFormSerialize ( container )
+  {
+    var $form=$("<form></form>");
+    $form.html($(container).clone());
+    return $form.serialize();
+  }
+  function toInt ( s )
+  {
+    var r=parseInt(s);
+    if(isNaN(r)) return 0;
+    return r;
+  }
+  function addslashes ( str ) { return str.replace('/(["\'\])/g', "\\$1").replace('/\0/g', "\\0"); }
+  </script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $(document).edTableStyle();
+    $("a.ed-box").edHrefBox();
+    $(".ui-ac-ms").AC2({multi:true});
+    $(".ui-ac-ss").AC2({multi:false});
+    $(".datepicker, .datetimepicker").DatePicker2();
+    $(".ui-button").button();
+    $(".ed-anyfile,.ed-img,.ed-files").edImgAnyfile();
+    $(".ed-checkbox-ui").edCheckbox();
+    $(".ed-check-tree").edCheckTree();
+    $("input:not(.ui-ajax)",".ed-filter-tbl").each(function(){
+      $(this).keypress(function(){widgetchanged(this);});
+    });
+    $(".slider").edSliderAjax();
+    $(".ed-msx").edMSX();
+    $("form.f-list-form").edEditForm();
+    $(".ed-f-filter").edFilterForm();
+    $(".ed-slider-cont").edMultiActions();
+    $(".ed-table").edTable();
+    $(".tops select").change(function(){ $(".tops").addClass("tops-changed"); });
+    $(".tops .slider a").click(function(){
+      if($(".tops").is(".tops-changed"))
+        if(!confirm("Переход на другую страницу сбросит выбранные места для топов. Вы уверены, что хотите перейти к другой страницу, не сохранив изменений?"))
+          return false;
+      return true;
+    });
+  });
+  </script>
+</head><body>
+
+  <div class="ui-layout-north">
+    <div id="listbook">
+    </div>
+    <div id="top">
+      <table class="container" width="100%">
+        <tr><td class="logo">
+            <h1 style="display:none;"><a href="/adm/"><img src="/xtpl/images/logo120515.png" width="168" height="70" alt="логотип" id="main_logo" /></a></h1>
+          </td><td class="usermenu">
+            <table><tr>
+              <td class="nav">04.10.2013 10:49</td>
+              <td class="nav"><a href="/adm/">Инфоцентр</a></td>
+              
+              <td class="nav"><a href="/admin/">Админка сайта</a></td>
+              <td class="nav"><a></a></td>
+              <td>Елецкая Елена Андреевна</td>
+              <td class="nav"><a href="?logout=1">Выход</a></td>
+            </tr></table>
+        </td></tr>
+      </table>
+    </div><!-- top:end -->
+    <div id="menu">
+      <table class="container" width="100%">
+        <tr><td class="left">
+            <div class="nav">
+              <!--a href="#" class="button"><img src="/adm/xtpl/i/ico_useful.gif" alt="Избранное" /></a-->
+              <b>
+              <a href="/adm/confmsg/" rel="list"><span>Сообщения</span></a>
+              </b>
+              
+              
+              <a href="/adm/conflictrq/" rel="list"><span>Сообщения корр.</span></a>
+              
+              
+              
+              <a href="/adm/feedback/" rel="list"><span>Сообщения польз.</span></a>
+              
+              
+              
+              <a href="/adm/confobject/" rel="list"><span>Объекты конфл.</span></a>
+              
+              
+              
+              <a href="/adm/confsubject/" rel="list"><span>Субъекты конфл.</span></a>
+              
+              
+              
+              <a href="/adm/profunion/" rel="list"><span>Профсоюзы</span></a>
+              
+              
+              
+              <a href="/adm/conf_s/" rel="list"><span>Рубрики</span></a>
+              
+              
+              
+              <a href="/adm/okved/" rel="list"><span>ОКВЭД</span></a>
+              
+              
+              
+              <a href="/adm/locsubject/" rel="list"><span>Субъекты РФ</span></a>
+              
+              
+              
+              <a href="/adm/locality/" rel="list"><span>Насел. пункты</span></a>
+              
+              
+              
+              <a href="/adm/confsrc/" rel="list"><span>Источники</span>a>
+              
+              
+              
+              <a href="/adm/innerdocs/" rel="list"><span>Руководства</span></a>
+            </div>
+          </td><!--td class="right">
+            <form action="list.php" method="post" id="formsearch">
+              <div class="search">
+                <table><tr><td class="input"><input id="find" name="find" type="text" value="" /></td><td class="button"><a href="#"><img onclick="$('#formsearch').submit();" src="/adm/xtpl/i/search.gif" alt="Искать" /></a></td>
+                <td><a href="#" class="extra" onclick="$('#formsearch').submit();"><img src="/adm/xtpl/i/search_extra.gif" alt="Расширенный поиск" /></a></td></tr></table>
+              </div>
+            </form>
+        </td--></tr>
+      </table>
+    </div><!-- menu:end -->
+  </div>
+
+  <div id="content">
+    <table class="container" width="100%"><tr><td class="leftcol">
+      <div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-corner-top ui-state-default "><a href="?&_filter=4"><span>Список</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="/adm/confmsg/?_a=add"><span>Создание</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default ui-state-active"><a href="/adm/confmsg/?_a=view&id=1235236&_server_referer=%3F%26_filter%3D4"><span>Просмотр</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="/adm/confmsg/?_a=edit&id=1235236&_server_referer=%3F%26_filter%3D4"><span>Редактор</span></a></li>
+    
+    <li class="ui-corner-top ui-state-default "><a href="/adm/confmsg/?_a=del&id=1235236&_server_referer=%3F%26_filter%3D4"><span>Удаление</span></a></li>
+    
+    
+    
+    
+  </ul>
+</div>
+
+
+
+
+<table class="listing list-form">
+
+<tr><th>ID</th><td>
+  <div class="ui-widget ui-state-default ui-corner-all ui-widget-dbinfo" style="float:right;font-weight:normal;text-align:right;margin: -8px -10px -8px 0" class="">
+    <div style="display:inline-block;">Дата ввода в БД: <span>04.10.2013 10:28</span></div>
+    <div style="display:inline-block;">Дата модификации: <span>04.10.2013 10:38</span></div>
+    <br><div style="display:inline-block;">Последний редактор: <span>Зубович Светлана Александровна</span></div>
+  </div>
+  <b>1235236</b>
+</td></tr>
+<tr><th>Дата</th><td>04.10.2013&nbsp;09:10
+
+
+
+</td></tr>
+
+<tr><th>Источник</th><td>Иркутскмедиа
+
+
+
+</td></tr>
+
+<tr><th>URL источника</th><td><a href="http://irkutskmedia.ru/news/irkutsk/04.10.2013/306669/bivshie-rabotniki-btsbk-viydut-na-miting-za-dostoyniy-trud-v-irkutske.html" target="_blank">http://irkutskmedia.ru/news/irkutsk/04.10.2013/306669/bivshie-rabotniki-btsbk-viydut-na-miting-za-dostoyniy-trud-v-irkutske.html</a>
+
+
+
+</td></tr>
+
+<tr><th>Рубрики по глоссарию</th><td><li><span>Стадии трудового конфликта&nbsp;&raquo;&nbsp;Развитие</span></li><li><span>Участники трудового конфликта&nbsp;&raquo;&nbsp;Профсоюзная организация</span></li>
+
+
+
+</td></tr>
+
+<tr><th>Заголовок</th><td>В Иркутске пройдёт митинг &quot;За достойный труд!&quot;
+
+
+
+</td></tr>
+
+<tr><th>Автор</th><td>
+
+
+
+</td></tr>
+
+<tr><th>Субъекты РФ</th><td><li><span>РФ&nbsp;&raquo;&nbsp;СФО&nbsp;&raquo;&nbsp;Иркутская область</span></li>
+
+
+
+</td></tr>
+
+<tr><th>Населенные пункты</th><td><li><span>Иркутск</span></li>
+
+
+
+</td></tr>
+
+<tr><th>Другие страны</th><td>
+
+
+
+</td></tr>
+
+<tr><th>Аннотация</th><td>7 октября 2013 года в Иркутске в рамках кампании "За достойный труд!" пройдет акция протеста. В рамках акции выступят и бывшие работники Байкальского целлюлозно-бумажного комбината, который окончательно закроют 25 декабря 2013 года. Кроме акции протеста в Иркутске, митинги пройдут в городах Усть-Илимске, Братске, Усолье-Сибирском, Ангарске, Тайшете и Тулуне. Участники выступят с требованиями к федеральным и региональным властям о повышении зарплаты, снижении цен и тарифов, в том числе на ЖКХ, а также достойной пенсии.
+
+
+
+</td></tr>
+
+<tr><th>Текст</th><td>Экс-работники Байкальского целлюлозно-бумажного комбината, который окончательно закроют 25 декабря, снова выйдут на митинг с требованием о создании новых рабочих мест в городе Байкальске Иркутской области. Всемирная акция протеста пройдет в сквере имени Кирова Иркутска в понедельник, 7 октября, с 11 до 13 часов. Кроме работников БЦБК в митинге примут участие жители города Усолья-Сибирского, в котором постепенно закрываются крупные промышленные предприятия. Об этом РИА IrkutskMedia рассказал на пресс-конференции, посвященной Всемирному дню действий "За достойный труд!", председатель Иркутского областного объединения организаций профсоюзов Александр Оболкин.<br />
+Кроме акции протеста в Иркутске, митинги пройдут в городах Усть-Илимске, Братске, Усолье-Сибирском, Ангарске, Тайшете и Тулуне. Участники выступят с требованиями к федеральным и региональным властям о повышении зарплаты, снижении цен и тарифов, в том числе на ЖКХ, а также достойной пенсии.<br />
+"Кроме глобальных проблем, на митинге в Иркутске озвучат и точечные проблемы именно нашего региона. Например, коснуться сложностей, которые сейчас преодолевают бывшие работники БЦБК. На акцию протеста придут работники предприятия "Иркутскгеофизика", где на протяжении 2 лет работникам задерживают выплату зарплат на два-три месяца. Жители Усть-Илимска коснутся проблемы отмены районных коэффициентов в северных территориях", - рассказала заместитель председателя Иркутского областного объединения организаций профсоюзов Анна Доменик.<br />
+Бывшие работники БЦБК выйдут на митинг за достойный труд в Иркутской области.<br />
+По словам Александра Оболкина, работники БЦБК будут требовать от властей составления плана по дальнейшему развитию Слюдянского района. Люди не знают, как будут жить дальше. Свободных рабочих мест в Слюдянском районе на сегодняшний день нет. Сейчас бывшим работникам БЦБК, техническим специалистам, предлагают работу с зарплатой 10-13 тысяч рублей. Раньше на комбинате они получали порядка 20 тысяч рублей. Только три человека с БЦБК получили приглашение на работу от Тихвинского вагоностроительного завода в Ленинградской области.<br />
+"Город Байкальск будет жить за счет областной дотации, если комбинат окончательно закроют. За 5 лет с момента временной заморозки БЦБК ни в Байкальске, ни в Слюдянском районе не было открыто ни одного нового предприятия. Все давно уже знали, что БЦБК рано или поздно придется закрыть, но никто ничего до сих пор не предпринял, чтобы сохранить моногород Байкальск в будущем. Нет даже проектов. Одни разговоры. Естественно, без проектов никакого федерального финансирования ждать не стоит", - отметил председатель Иркутского областного объединения организаций профсоюзов.<br />
+Напомним, от безысходности и закрытия единственного градообразующего предприятия приехали на пикет к правительству Иркутской области экс-работники БЦБК 2 октября. Жители города Байкальска разочаровались в бесконечных обещаниях чиновников. Многим работникам комбината более 40 лет. Люди практически не надеются на то, что их трудоустроят на новом производстве, и переучиваться на другую более востребованную специальность уже поздно.<br />
+Как сообщало ранее РИА IrkutskMedia, премьер-министр России Дмитрий Медведев говорил на встрече с активом партии "Единая Россия" в июне 2013 года о том, всем сотрудникам БЦБК после увольнения или сокращения будет предложена работа в туристско-рекреационной зоне, которую планируется создать в Байкальске. Премьер отметил тогда, что общий объем финансирования проекта, который включает остановку комбината и развитие региона, составляет порядка 40 млрд рублей, 26 млрд из которых будет выделено из федерального бюджета.
+
+
+
+</td></tr>
+
+<tr><th>События</th><td><div class="ed-msx" rel="confevent">
+    <div class="ed-list-active-nonedit">
+      <div class="ui-widget ui-corner-all ui-state-default">
+        <div class="ed-slider-cont">
+<div class="slider">
+  
+  <span>с 1 по 1 (всего 1)</span>
+  
+</div>
+
+<table class="listing list-list"><tr>
+  <th>
+    <div class="ed-msx-hide-button"><div class="ed-icon-cont"><a class="ed-icon ed-hides" target="_blank" title="Показать список уже связанных элементов" href="#"></a></div></div>
+  </th>
+  <th>ID</th>
+  <th>Дата начала</th><th>Дата окончания</th><th>Заголовок</th><th>Субъекты РФ</th><th>Конфликты</th><th>Рубрики по глоссарию</th>
+</tr>
+<tr class="ed-rw no-ed-del">
+  <th class="ed-actions nowrap">
+    <div class="ed-actions-cont">
+      <div class="ed-icon-cont">
+        <a class="ed-icon ed-add" rel="1" href="#"></a>
+        <a class="ed-icon ed-del" href="#"></a>
+      </div>
+      <div class="ed-icon-cont"><a class="ed-icon ed-view" href="/adm/confevent/?_a=view&id=1" target="_blank"></a></div>
+      <div class="ed-icon-cont">
+        
+      </div>
+    </div>
+    
+  </th>
+  <td>1</td>
+  <td>
+
+
+
+</td><td>
+
+
+
+</td><td>ПРОЧЕЕ
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td><td>
+
+
+
+</td>
+</tr>
+</table>
+<div class="slider">
+  
+  <span>с 1 по 1 (всего 1)</span>
+  
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+
+
+
+</td></tr>
+
+<tr><th>Опубликовано</th><td><div class="ed-checkbox ed-checkbox-"></div>
+
+
+
+</td></tr>
+
+</table>
+
+      
+      
+
+      
+      
+    </td></tr></table>
+  </div>
+
+  <div id="bottom">
+    <table class="container" width="100%">
+      <tr><td class="left">
+        <!--p class="copyright"></p-->
+      </td></tr>
+    </table>
+  </div><!-- content:end -->
+</body>
+</html>
