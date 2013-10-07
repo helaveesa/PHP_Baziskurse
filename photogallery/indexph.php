@@ -1,4 +1,8 @@
-﻿<?php
+<?php
+if (isset ($_GET[del])) {		
+		unlink ("photos/$_GET[del]");
+		header ("location:indexph.php");
+	}
 # РћР±СЂР°Р±РѕС‚С‡РёРє 
 	if (isset ($_POST[z1])) {
 		if($_FILES[photo][size] <= 2*1024*1024) {  #РµСЃР»Рё СЂР°Р·РјРµСЂ С„Р°Р№Р»Р° РїРѕРґС…РѕРґСЏС‰РёР№ 
@@ -28,6 +32,26 @@
 	}
 	
 	/* создание фотогалереи */
+	
+?>
+
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Загрузка файлов</title>
+  <meta charset="utf-8">
+  </head>
+  <body>
+  
+	<!-- Р¤РѕСЂРјР° Р·Р°РіСЂСѓР·РєРё -->
+     <form method = "post" enctype = "multipart/form-data"> <!-- form-data пишется, через дефис -->
+        <table border = "1" width = "100">
+         <tr>
+            <td><input type = "file" name = "photo"></td><br>          
+            <td><input type = "submit" name = "z1" value = "Загрузить"></td><br><br>
+         </tr>
+	</form>
+	<?php
 	$d = opendir ("photos"); # открываем папку photos
 	
 	# читаем ее
@@ -50,6 +74,8 @@
 		}
 			$ot = ($page - 1) * $kol_on_page;
 			$do = $page * $kol_on_page - 1;
+			
+	
 		
 				
     echo "<table>";
@@ -68,33 +94,6 @@
 		if ($i%2==1) echo "</tr>";
 	}
 	echo "</table>";
-	
-	// удаление фото обработчик
-	
-	if (isset ($_GET[del])) {
-		
-		unlink ("photos/$_GET[del]");
-		header ("location:index.php");
-	}
-	
-	
-?>
-
-<!DOCTYPE html>
-<html>
- <head>
-   <title>Загрузка файлов</title>
-  <meta charset="utf-8">
-  </head>
-  <body>
-  
-	<!-- Р¤РѕСЂРјР° Р·Р°РіСЂСѓР·РєРё -->
-     <form method = "post" enctype = "multipart/form-data"> <!-- form-data пишется, через дефис -->
-        <table border = "1" width = "100">
-         <tr>
-            <td><input type = "file" name = "photo"></td><br>          
-            <td><input type = "submit" name = "z1" value = "Загрузить"></td><br><br>
-         </tr>
-	</form>
+	?>
  </body> 
 </html>
