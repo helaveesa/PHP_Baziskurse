@@ -12,6 +12,7 @@ PHP_Baziskurse
 * http://www.site-do.ru/php/uroki_php.php
 * http://www.site-do.ru/db/db3.php
 * http://www.sergeeva-i.narod.ru/inform/page6.htm
+* http://approsto.com/
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
@@ -33,3 +34,14 @@ Colors for HTML
 
 Парсер на PHP
 * http://westseo.ru/simple-php-parser/
+* http://ru.wikipedia.org/wiki/JQuery
+
+Мануал по JQuery
+* http://jquery-docs.ru/
+* http://anton.shevchuk.name/javascript/jquery-for-beginners/
+* http://anton.shevchuk.name/wp-demo/jquery-tutorials/
+* http://www.designonstop.com/tutorials/my-tuts/20-vpechatlyayushhix-primerov-vozmozhnostej-jquery-texnologii-s-manualami.htm
+* http://winchanger.narod.ru/jquery/firstsamples.htm
+* http://www.litecode.ru/javascript/jquery_example.shtml
+* http://xhtml.co.il/ru/jQuery/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-jQuery
+* http://workmake.ru/veb-razrabotka/freymvorki/jquery/pamyatka-jquery-prostyie-primeryi-skriptov-na-jquery-ssyilki-na-poleznyie-saytyi-po-jquery/
