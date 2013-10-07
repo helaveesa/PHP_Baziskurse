@@ -45,3 +45,10 @@ Colors for HTML
 * http://www.litecode.ru/javascript/jquery_example.shtml
 * http://xhtml.co.il/ru/jQuery/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-jQuery
 * http://workmake.ru/veb-razrabotka/freymvorki/jquery/pamyatka-jquery-prostyie-primeryi-skriptov-na-jquery-ssyilki-na-poleznyie-saytyi-po-jquery/
+
+SQL
+* http://ru.wikipedia.org/wiki/SQL
+* Справочник с примерами по языку SQL
+http://sql.itsoft.ru/
+* http://www.sql-tutorial.ru/
+* 
