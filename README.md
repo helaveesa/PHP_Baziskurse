@@ -30,3 +30,6 @@ Colors for HTML
 
 Учебник HTML
 * http://ru.html.net/tutorials/html/
+
+Парсер на PHP
+* http://westseo.ru/simple-php-parser/
