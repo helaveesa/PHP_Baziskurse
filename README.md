@@ -57,6 +57,7 @@ cookies
 
 MySQL
 * http://phpclub.ru/detail/article/phpintro
+* http://www.php.su/mysql/?fields   !!!!!!!!!!!!!!!!
 
 SQL
 * http://ru.wikipedia.org/wiki/SQL
