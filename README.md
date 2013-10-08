@@ -59,4 +59,8 @@ SQL
 * Справочник с примерами по языку SQL
 http://sql.itsoft.ru/
 * http://www.sql-tutorial.ru/
-* 
+
+Заголовки для сервера через php функцию header()
+* http://stroimsayt.com/2012/06/php_headers/
+* http://job-blog.bullgare.ru/2009/09/%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F-header-%D0%B2-php/
+* http://redirekt.info/article/pishem-redirekt-na-php-header.html
