@@ -26,8 +26,16 @@ Colors for HTML
 Кнопки
 * http://www.in-internet.narod.ru/teor/phpform.html
 
+cookies
+* http://www.softtime.ru/bookphp/gl8_2.php
+
 Сессии
 * http://ru.html.net/tutorials/php/lesson12.php
+* http://www.php.net/manual/ru/book.session.php
+* http://www.softtime.ru/bookphp/gl8_1.php
+* http://www.php.su/articles/?cat=examples&page=070
+* http://phpfaq.ru/sessions
+* http://php.spb.ru/php/session.html
 
 Учебник HTML
 * http://ru.html.net/tutorials/html/
