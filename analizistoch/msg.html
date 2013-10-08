@@ -1,0 +1,573 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Конфликтология</title>
+  <link rel="stylesheet" type="text/css" href="/xtpl/css/main.css?" />
+  <link rel="stylesheet" type="text/css" href="/xtpl/css/os_other.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="/xtpl/css/ie8.css" /><![endif]-->
+  <link rel="stylesheet" type="text/css" href="/xtpl/js/dynatree/skin/ui.dynatree.css" />
+  <link rel="stylesheet" type="text/css" href="/xtpl/zfixes.css" />
+  <link rel="stylesheet" type="text/css" href="/xtpl/css/cupertino/jquery-ui-1.8.18.custom.css" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic" />
+  <link rel="stylesheet" type="text/css" href="/xtpl/css/jquery.tooltip.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/xtpl/print.css" media="print" />
+  
+  <link rel="Next" id="NextLink" href="?&from=20" />
+  <script type="text/javascript" src="/xtpl/js/jquery.js"></script>
+  <!--script type="text/javascript" src="/xtpl/js/jquery-ui.js"></script-->
+  <script type="text/javascript" src="/xtpl/js/jquery-ui-1.8.18.custom.min.js"></script>
+  <script type="text/javascript" src="/xtpl/js/jquery.ui.datepicker-ru.js"></script>
+  <script type="text/javascript" src="/xtpl/js/jquery.dynatree.min.js"></script>
+  <script type="text/javascript" src="/xtpl/js/jquery.tooltip.js"></script>
+  <script type="text/javascript" src="/xtpl/js/checktree.inc.js"></script>
+  <script type="text/javascript" src="/xtpl/js/main.js"></script>
+  <script type="text/javascript">$(document).ready(function(){
+  document.onkeydown = NavigateThrough;
+  $("div.print a").click(function(){ window.print(); return false; });
+  $("a.popup").tooltip({
+    showURL: false,
+    bodyHandler: function ( ) { return $($(this).attr("rel")).html(); }
+  });
+  $.fn.extend({
+    "DatePicker2":function(options){
+      if($(this).length>1) { $(this).each(function(){ $(this).DatePicker2(options); }); return; }
+      if(!options) options={};
+      options.changeMonth=true;
+      options.changeYear=true;
+      if($(this).attr("name")=='dt1') options.onSelect=function(){
+        var e2=$("input.datepicker[name=dt2]",$(this).parents("form")[0]);
+        if(e2.datepicker("getDate")&&$(this).datepicker("getDate"))
+         if(e2.datepicker("getDate")<$(this).datepicker("getDate"))
+          e2.val($(this).val());
+      };
+      if($(this).attr("name")=='dt2') options.onSelect=function(){
+        var e2=$("input.datepicker[name=dt1]",$(this).parents("form")[0]);
+        if(e2.datepicker("getDate")&&$(this).datepicker("getDate"))
+         if(e2.datepicker("getDate")>$(this).datepicker("getDate"))
+          e2.val($(this).val());
+      };
+      /*if($(this).is(".datetimepicker")) $(this).datetimepicker(options);
+      else*/ $(this).datepicker(options);
+    }
+  });
+  $(".datepicker").DatePicker2();
+  $("a:not([href])").addClass("no-a");
+  $("input.datepicker").datepicker({
+    dateFormat: 'yy-mm-dd'
+  });
+  $("select[name=url]").change(function(event){
+    document.location=$(this).val();
+    event.stopPropagation();
+    return false;
+  });
+  /*
+  $(".f-lk-feedback-new").submit(function(event){
+    var $f=$(this);
+    var $e;
+    $e=$("[name=head]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали тему");
+    $e=$("[name=txt]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали сообщение");
+    return true;
+  });
+  $(".f-lk-feedback-post").submit(function(event){
+    var $f=$(this);
+    var $e;
+    $e=$("[name=txt]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали сообщение");
+    return true;
+  });
+  */
+  $("#register_form select").change(function(event){
+    var $ns=".select-depend-"+$(this).attr("name");
+    var $vs=$ns+"-"+$(this).val();
+    $($ns+":not("+$vs+")").hide();
+    $($vs).show();
+  });
+  $("#register_form").submit(function(event){
+    var $f=$(this);
+    var $e;
+    $e=$("[name=f]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали фамилию.",$e);
+    $e=$("[name=i]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали имя.",$e);
+    $e=$("[name=locsubject]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали регион.",$e);
+    //$e=$("[name=locality]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали город.",$e);
+    $e=$("[name=status]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали статус.",$e);
+    $e=$("[name=okved]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали отрасль.",$e);
+    $e=$("[name=email]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали email.",$e);
+    $e=$("[name=captcha]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не ввели код проверки.",$e);
+    return true;
+  });
+  $("#conflictrq_form").submit(function(event){
+    var $f=$(this);
+    var $e;
+    $e=$("[name=dt]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали дату.",$e);
+    $e=$("[name=locsubject]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали регион.",$e);
+    $e=$("[name=conf_s]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали форму конфликта.",$e);
+    $e=$("[name=confobjecttxt]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали объект конфликта.",$e);
+    $e=$("[name=okvedtxt]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали отрасль конфликта.",$e);
+    $e=$("[name=confsubjecttxt]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали субъекты конфликта.",$e);
+    $e=$("[name=requirements]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали требования участников.",$e);
+    $e=$("[name=captcha]",$f); if($e.length) if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не ввели код проверки.",$e);
+    return true;
+  });
+  $("#feedback_form").submit(function(event){
+    var $f=$(this);
+    var $e;
+    $e=$("[name=head]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали тему письма.",$e);
+    $e=$("[name=comment]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали текст письма.",$e);
+    return true;
+  });
+  $("#profile_form").submit(function(event){
+    var $f=$(this);
+    var $e;
+    $e=$("[name=f]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали фамилию.",$e);
+    $e=$("[name=i]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали имя.",$e);
+    $e=$("[name=locsubject]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали регион.",$e);
+    //$e=$("[name=locality]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали город.",$e);
+    $e=$("[name=status]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали статус.",$e);
+    $e=$("[name=okved]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали отрасль.",$e);
+    $e=$("[name=email]",$f); if($e.val()==$e.attr("val")||!$e.val().length) return fwxerr(event,"Вы не указали email.",$e);
+    return true;
+  });
+  $("#f-lk-filter").submit(function(event){
+    $(this).edCheckTreeSync();
+    var $e;
+    if($(".f-okved",this).length) {
+      if(!$(".f-okved input:checkbox:checked",this).length) { return fwxerr(event,"Вы не выбрали ни одну отрасль",false); return false; }
+    } else {
+      if(!$(".f-location input:checkbox:checked",this).length) { return fwxerr(event,"Вы не выбрали террриторию",false); return false; }
+    }
+    return true;
+  });
+
+  $(".ed-check-tree").edCheckTree();
+});
+function fwxerr(event,msg,el) {
+  alert(msg);
+  event.stopPropagation();
+  if(el) if($(el).length==1) $(el).focus();
+  return false;
+}
+function NavigateThrough (event)
+{
+  if (!document.getElementById) return;
+  if (window.event) event = window.event;
+  if ((event.altKey && !event.ctrlKey) || (!event.altKey && event.ctrlKey))
+  {
+    var link = null;
+    var href = null;
+    switch (event.keyCode ? event.keyCode : event.which ? event.which : null)
+    {
+      case 0x27:
+        link = document.getElementById ('NextLink');
+        break;
+      case 0x25:
+        link = document.getElementById ('PrevLink');
+        break;
+    }
+    if (link && link.href) document.location = link.href;
+    if (href) document.location = href;
+  }     
+}</script>
+  
+  <script type="text/javascript">
+  
+  
+  
+  
+  
+  
+  
+  </script>
+</head>
+
+<body>
+<div id="main">
+  <div id="site">
+  <div class="both topBlock">
+  <div class="both topPanel">
+    <a class="map" href="/txt/8/karta_sayta.html"><span></span> <strong>Карта сайта</strong></a>
+    <div class="links">
+      <a href="/lk/">Вход</a><br />
+      
+      <br /><a href="/register/">Регистрация</a>
+    </div>
+    <div class="searchBox">
+      <form action="/search" method="GET">
+        <input type="text" name="search" value="Поиск" class="text cleared" />
+      </form>
+      <p><a href="/search/">Расширенный поиск</a></p>
+    </div>
+  </div>
+  <div class="both headerBox">
+    <div class="topBox"><div class="topBox-bg-r">
+      <div class="logo">
+<div style="position: relative; bottom: -10px; right: -110px; color: white; font: 16pt arial;  font-weight: lighter;">Социально-трудовые конфликты</div>
+<a href="/" style="position: relative; bottom: 30px;"><img src="/xtpl/images/logo121129.png" alt="" /></a>
+
+</div>
+    </div></div>
+    <ul class="both">
+      <li class="m1"><a href="/txt/1/o_proekte.html">О проекте</a></li>
+      <li class="m9"><a href="/txt/9/o_sayte.html">О сайте</a></li>
+      <li class="m2"><a href="/txt/2/poleznye_ssylki_i_adresa.html">Полезные ссылки и адреса</a></li>
+      <li class="m3"><a href="/conflictrq/">Сообщить о конфликте</a></li>
+      <li class="m4"><a href="/law/">Законодательство</a></li>
+      <li class="m5"><a href="/lib/">Литература</a></li>
+      <!-- li class="m6"><a href=""></a></li -->
+      <li class="m7"><a href="/txt/13/ekspertnaya_sety.html">Форум</a></li>
+      <li class="m8"><a href="/txt/7/kontakty.html">Контакты</a></li>
+    </ul>
+  </div>
+</div>
+
+    <div class="both contentBlock content-2-cols">
+      <div class="infoBox">
+          <div class="titleBox">
+            <ul class="path">
+              <li><a href="/">Главная</a></li>
+              <li>&raquo; <a href="">Сообщения</a></li>
+            </ul>
+          </div>
+        </div>
+      
+      
+
+      
+
+
+
+
+
+
+      
+
+      
+
+      
+
+<div class="both"><div class="leftCenterBlock">
+  <div class="infoBox">
+    <div class="titleBox"><h1><a href="/msg/?region=">Сообщения</a></h1></div>
+    <div class="previewBox">
+    <ul class="list">
+      <li>
+        <a href="/msg/1243743/w_ekaterinburge_proshyol_miting_chlenow_profsoyuzow_za_so.html"><img src="/i/face_confmsg_icon1/1243743.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 16:34<p><a href="/msg/1243743/w_ekaterinburge_proshyol_miting_chlenow_profsoyuzow_za_so.html">В Екатеринбурге прошёл митинг членов профсоюзов за сохранение горно-металлургического комплекса в рамках кампании &quot;За достойный труд!&quot;</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1245325/sotrudniki_nemetskih_regionalynyh_gazet_potrebowali_p.html"><img src="/i/face_confmsg_icon1/1245325.jpg" alt="" width="75" height="75" /></a>
+        <div>08.10.2013 11:02<p><a href="/msg/1245325/sotrudniki_nemetskih_regionalynyh_gazet_potrebowali_p.html">Сотрудники немецких региональных газет потребовали повысить заработную плату</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1243462/aktiwisty_profsoyuza_trudyaschihsya_awiatsionnoy_promyshlen.html"><img src="/i/face_confmsg_icon1/1243462.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 15:24<p><a href="/msg/1243462/aktiwisty_profsoyuza_trudyaschihsya_awiatsionnoy_promyshlen.html">Активисты профсоюза трудящихся авиационной промышленности пикетировали штаб-квартиру &quot;Ростехнологий&quot;</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1242852/rabotniki_awtoproma_w_yuar_zawershili_zabastowku.html"><img src="/i/face_confmsg_icon1/1242852.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 15:50<p><a href="/msg/1242852/rabotniki_awtoproma_w_yuar_zawershili_zabastowku.html">Работники автопрома в ЮАР завершили забастовку</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1243139/w_mup_pad_nachali_wyplachiwaty_zarplatu.html"><img src="/i/face_confmsg_icon1/1243139.jpg" alt="" width="75" height="75" /></a>
+        <div>02.10.2013 00:00<p><a href="/msg/1243139/w_mup_pad_nachali_wyplachiwaty_zarplatu.html">В МУП &quot;ПАД&quot; начали выплачивать зарплату</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1242562/na_kondopozhskom_tsellyulozno-bumazhnom_kombinate_oprowe.html"><img src="/i/face_confmsg_icon1/1242562.jpg" alt="" width="75" height="75" /></a>
+        <div>30.09.2013 00:00<p><a href="/msg/1242562/na_kondopozhskom_tsellyulozno-bumazhnom_kombinate_oprowe.html">На Кондопожском целлюлозно-бумажном комбинате опровергли информацию об увольнениях</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1242417/prinyatye_organami_prokuratury_mery_pozwolili_pogasit.html"><img src="/i/face_confmsg_icon1/1242417.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 17:18<p><a href="/msg/1242417/prinyatye_organami_prokuratury_mery_pozwolili_pogasit.html">Принятые органами прокуратуры меры позволили погасить задолженность по зарплате в Сибирском федеральном округе на сумму свыше 1,2 млрд рублей</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1242298/wsemirnyy_deny_deystwiy_za_dostoynyy_trud_preds.html"><img src="/i/face_confmsg_icon1/1242298.jpg" alt="Всемирный день действий &quot;За достойный труд&quot; председатель одного из крупнейших профсоюзных центров РФ провел в Хабаровске" width="75" height="75" /></a>
+        <div>07.10.2013 12:38<p><a href="/msg/1242298/wsemirnyy_deny_deystwiy_za_dostoynyy_trud_preds.html">Всемирный день действий &quot;За достойный труд&quot; председатель одного из крупнейших профсоюзных центров РФ провел в Хабаровске</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1242180/metallisty_sankt-peterburga_i_finskogo_turku_podpisal.html"><img src="/i/face_confmsg_icon1/1242180.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 07:33<p><a href="/msg/1242180/metallisty_sankt-peterburga_i_finskogo_turku_podpisal.html">Металлисты Санкт-Петербурга и финского Турку подписали договор о совместной работе</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1241701/w_kazani_proshyol_miting_za_dostoynyy_trud.html"><img src="/i/face_confmsg_icon1/1241701.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 00:00<p><a href="/msg/1241701/w_kazani_proshyol_miting_za_dostoynyy_trud.html">В Казани прошёл митинг &quot;За достойный труд!&quot;</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1241395/w_ekaterinburge_sostoyalosy_zasedanie_obedineniya_rab.html"><img src="/i/face_confmsg_icon1/1241395.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 09:59<p><a href="/msg/1241395/w_ekaterinburge_sostoyalosy_zasedanie_obedineniya_rab.html">В Екатеринбурге состоялось заседание объединения работодателей</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1241033/profsoyuz_prigrozil_kompanii_amazon_zabastowkoy.html"><img src="/i/face_confmsg_icon1/1241033.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 11:02<p><a href="/msg/1241033/profsoyuz_prigrozil_kompanii_amazon_zabastowkoy.html">Профсоюз пригрозил компании &quot;Amazon&quot; забастовкой</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1240885/w_tsentralynom_shtabe_obscherossiyskogo_narodnogo_fronta_.html"><img src="/i/face_confmsg_icon1/1240885.jpg" alt="" width="75" height="75" /></a>
+        <div>07.10.2013 07:23<p><a href="/msg/1240885/w_tsentralynom_shtabe_obscherossiyskogo_narodnogo_fronta_.html">В центральном штабе Общероссийского народного фронта предлагают изъять в пользу государства предприятие в Пикалево</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1239032/w_latwii_startowala_obschestwennaya_kampaniya_za_wstuplen.html"><img src="/i/face_confmsg_icon1/1239032.jpg" alt="" width="75" height="75" /></a>
+        <div>05.10.2013 16:32<p><a href="/msg/1239032/w_latwii_startowala_obschestwennaya_kampaniya_za_wstuplen.html">В Латвии стартовала общественная кампания за вступление в профсоюзы</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1240253/w_gosudarstwennuyu_dumu_wnesen_zakonoproekt_o_pereatte.html"><img src="/i/face_confmsg_icon1/1240253.jpg" alt="" width="75" height="75" /></a>
+        <div>06.10.2013 23:50<p><a href="/msg/1240253/w_gosudarstwennuyu_dumu_wnesen_zakonoproekt_o_pereatte.html">В Государственную Думу внесен законопроект о переаттестации работников</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1239195/medsyostry_portugalii_namereny_bastowaty.html"><img src="/i/face_confmsg_icon1/1239195.jpg" alt="" width="75" height="75" /></a>
+        <div>05.10.2013 18:40<p><a href="/msg/1239195/medsyostry_portugalii_namereny_bastowaty.html">Медсёстры Португалии намерены бастовать</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1237961/sotrudniki_klinicheskoy_bolynitsy_wladikawkaza_poluchil.html"><img src="/i/face_confmsg_icon1/1237961.jpg" alt="" width="75" height="75" /></a>
+        <div>04.10.2013 19:26<p><a href="/msg/1237961/sotrudniki_klinicheskoy_bolynitsy_wladikawkaza_poluchil.html">Сотрудники клинической больницы Владикавказа получили зарплату после вмешательства прокуратуры</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1236806/moskowskie_profsoyuzy_ustroyat_71_piket_w_ramkah_kampani.html"><img src="/i/face_confmsg_icon1/1236806.jpg" alt="" width="75" height="75" /></a>
+        <div>04.10.2013 14:50<p><a href="/msg/1236806/moskowskie_profsoyuzy_ustroyat_71_piket_w_ramkah_kampani.html">Московские профсоюзы устроят 71 пикет в рамках кампании &quot;За достойный труд!&quot;</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1236256/zadolzhennosty_pered_rabotnikami_samarskogo_ooo_su.html"><img src="/i/face_confmsg_icon1/1236256.jpg" alt="" width="75" height="75" /></a>
+        <div>04.10.2013 13:12<p><a href="/msg/1236256/zadolzhennosty_pered_rabotnikami_samarskogo_ooo_su.html">Задолженность перед работниками самарского ООО &quot;Суходольское Управление Буровых Работ&quot; составила более 2,2 млн рублей</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li>        
+       
+      <li>
+        <a href="/msg/1236392/yuzhnouralyskie_rabotodateli_zadolzhali_swoim_rabotnika.html"><img src="/i/face_confmsg_icon1/1236392.jpg" alt="" width="75" height="75" /></a>
+        <div>04.10.2013 13:20<p><a href="/msg/1236392/yuzhnouralyskie_rabotodateli_zadolzhali_swoim_rabotnika.html">Южноуральские работодатели задолжали своим работникам более 5 миллионов рублей</a></p><!-- a class="comments" href="">10 комментариев</a --></div>
+      </li> 
+    </ul> 
+      
+<div class="slider2">
+  
+  <li>
+  
+  <span class="pg">1</span>
+  
+  </li>
+  
+  <li>
+  <a href="?&from=20" class="pg">2</a>
+  
+  
+  </li>
+  
+  <li>
+  <a href="?&from=40" class="pg">3</a>
+  
+  
+  </li>
+  
+  <li>
+  <a href="?&from=60" class="pg">4</a>
+  
+  
+  </li>
+  
+  <li>
+  <a href="?&from=80" class="pg">5</a>
+  
+  
+  </li>
+  
+  <li>
+  
+  
+  <span class="sp">...</span>
+  </li>
+  
+  <li>
+  <a href="?&from=920" class="pg">47</a>
+  
+  
+  </li>
+  
+  <li>
+  <a href="?&from=940" class="pg">48</a>
+  
+  
+  </li>
+  
+  <li>
+  <a href="?&from=960" class="pg">49</a>
+  
+  
+  </li>
+  
+  <li>
+  <a href="?&from=980" class="pg">50</a>
+  
+  
+  </li>
+  <li class="next"><a href="?&from=20"><span class="os osmac">Alt + </span><span class="os oswin">Ctrl + </span><span class="arr">&rarr;</span></a></li>
+</div>
+
+    </div>
+    <div class="clear"></div>
+  </div>
+</div></div>
+
+
+      
+      
+
+
+      <div class="rightBlock">
+  <div class="lastEventsBox">
+    <h3>Последние сообщения <a href="/msg/">&gt;&gt;</a></h3>
+    <ul>
+      <li>
+        <p>08.10.2013 11:02</p>
+        <a href="/msg/1245325/sotrudniki_nemetskih_regionalynyh_gazet_potrebowali_p.html">Сотрудники немецких региональных газет потребовали повысить заработную плату</a>
+      </li>
+      
+      <li>
+        <p>07.10.2013 17:18</p>
+        <a href="/msg/1242417/prinyatye_organami_prokuratury_mery_pozwolili_pogasit.html">Принятые органами прокуратуры меры позволили погасить задолженность по зарплате в Сибирском федеральном округе на сумму свыше 1,2 млрд рублей</a>
+      </li>
+      
+      <li>
+        <p>07.10.2013 16:34</p>
+        <a href="/msg/1243743/w_ekaterinburge_proshyol_miting_chlenow_profsoyuzow_za_so.html">В Екатеринбурге прошёл митинг членов профсоюзов за сохранение горно-металлургического комплекса в рамках кампании &quot;За достойный труд!&quot;</a>
+      </li>
+      
+      <li>
+        <p>07.10.2013 15:50</p>
+        <a href="/msg/1242852/rabotniki_awtoproma_w_yuar_zawershili_zabastowku.html">Работники автопрома в ЮАР завершили забастовку</a>
+      </li>
+    </ul>
+  /div>
+  
+  <div class="lastEventsBox">
+    <h3>В стране и за рубежом <a href="/stuffmsg/">&gt;&gt;</a></h3>
+    <ul>
+      <li>
+        <p>07.10.2013 12:38</p>
+        <a href="/msg/1242298/wsemirnyy_deny_deystwiy_za_dostoynyy_trud_preds.html">Всемирный день действий &quot;За достойный труд&quot; председатель одного из крупнейших профсоюзных центров РФ провел в Хабаровске</a>
+      </li>
+      
+      <li>
+        <p>06.10.2013 23:50</p>
+        <a href="/msg/1240253/w_gosudarstwennuyu_dumu_wnesen_zakonoproekt_o_pereatte.html">В Государственную Думу внесен законопроект о переаттестации работников</a>
+      </li>
+      
+      <li>
+        <p>07.10.2013 07:23</p>
+        <a href="/msg/1240885/w_tsentralynom_shtabe_obscherossiyskogo_narodnogo_fronta_.html">В центральном штабе Общероссийского народного фронта предлагают изъять в пользу государства предприятие в Пикалево</a>
+      </li>
+      
+      <li>
+        <p>07.10.2013 09:59</p>
+        <a href="/msg/1241395/w_ekaterinburge_sostoyalosy_zasedanie_obedineniya_rab.html">В Екатеринбурге состоялось заседание объединения работодателей</a>
+      </li>
+      
+      <li>
+        <p>04.10.2013 00:00</p>
+        <a href="/msg/1234799/prezident_rf_wystupil_na_forume_rossiya_zowyot.html">Президент РФ выступил на форуме &quot;Россия зовёт&quot;</a>
+      </li>
+      
+      <li>
+        <p>07.10.2013 00:00</p>
+        <a href="/msg/1241701/w_kazani_proshyol_miting_za_dostoynyy_trud.html">В Казани прошёл митинг &quot;За достойный труд!&quot;</a>
+      </li>
+      
+      <li>
+        <p>03.10.2013 16:31</p>
+        <a href="/msg/1233848/ministr_finansow_rf_predlozhil_byudzhetnikam_wozmozhnost.html">Министр финансов РФ предложил бюджетникам возможность перехода на почасовую оплату труда</a>
+      </li>
+      
+      <li>
+        <p>03.10.2013 11:59</p>
+        <a href="/msg/1231903/interwyyu_predsedatelya_krupneyshego_profsoyuznogo_tsentr.html">Интервью Председателя крупнейшего профсоюзного центра РФ накануне Всемирного дня действий &quot;За достойный труд!&quot;</a>
+      </li>
+      
+      <li>
+        <p>03.10.2013 08:00</p>
+        <a href="/msg/1229859/pedagogi_podweli_perwye_itogi_deystwiya_zakona_ob_o.html">Педагоги подвели первые итоги действия закона &quot;Об образовании&quot;</a>
+      </li>
+      
+      <li>
+        <p>07.10.2013 11:02</p>
+        <a href="/msg/1241033/profsoyuz_prigrozil_kompanii_amazon_zabastowkoy.html">Профсоюз пригрозил компании &quot;Amazon&quot; забастовкой</a>
+      </li>
+    </ul>
+  </div>
+</div>
+    </div>
+    <div class="both bottomBlock">
+      <div class="box">
+        <!-- should not appear in LK -->
+        <div class="counters">
+          <!-- Yandex.Metrika informer -->
+<!--a href="http://metrika.yandex.ru/stat/?id=18529150&amp;from=informer"
+target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/18529150/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:18529150,type:0,lang:'ru'});return false}catch(e){}"/></a-->
+<!-- /Yandex.Metrika informer -->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter18529150 = new Ya.Metrika({id:18529150,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/18529150" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t11.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet: показано число просмотров за 24"+
+" часа, посетителей за 24 часа и за сегодня' "+
+"border='0' width='88' height='31'><\/a>")
+//--></script><!--/LiveInternet-->
+
+        </div>
+        <div class="copyright">
+          <p>Сайт &laquo;Социльно-трудовые конфликты&raquo; - информационный ресурс, созданный в рамках проекта Практическая
+ конфликтология. Основной целью ресурса является предоставление государственным и
+ общественным институтам, организациям, учёным и специалистам, а также частным лицам актуальной и
+ достоверной информации о социально-трудовых конфликтах в Российской Федерации.</p>
+<p>Все права на сайт защищены и охраняются законодательством РФ.</p>
+<p>При использовании оригинальных материалов сайта гиперссылка на сайт <a href="http://industrialconflicts.ru/">"Социально-трудовые конфликты"</a> обязательна.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

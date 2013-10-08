@@ -13,6 +13,7 @@ PHP_Baziskurse
 * http://www.site-do.ru/db/db3.php
 * http://www.sergeeva-i.narod.ru/inform/page6.htm
 * http://approsto.com/
+* http://www.w3schools.com/  !!!!!!!!!!!
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
@@ -54,6 +55,9 @@ cookies
 * http://xhtml.co.il/ru/jQuery/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-jQuery
 * http://workmake.ru/veb-razrabotka/freymvorki/jquery/pamyatka-jquery-prostyie-primeryi-skriptov-na-jquery-ssyilki-na-poleznyie-saytyi-po-jquery/
 
+MySQL
+* http://phpclub.ru/detail/article/phpintro
+
 SQL
 * http://ru.wikipedia.org/wiki/SQL
 * Справочник с примерами по языку SQL
@@ -64,3 +68,12 @@ http://sql.itsoft.ru/
 * http://stroimsayt.com/2012/06/php_headers/
 * http://job-blog.bullgare.ru/2009/09/%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F-header-%D0%B2-php/
 * http://redirekt.info/article/pishem-redirekt-na-php-header.html
+
+Filezilla
+* http://filezilla.ru/documentation/FileZilla_FTP_Server
+* http://doc.3dn.ru/publ/15-1-0-24
+* http://sonikelf.ru/sozdaem-svoj-sobstvennyj-ftp-server-na-baze-filezilla-server/
+* http://ru.wikipedia.org/wiki/HTTP
+* http://ru.wikipedia.org/wiki/FTP
+* http://ru.wikipedia.org/wiki/SFTP
+* http://ru.wikipedia.org/wiki/HTTPS
