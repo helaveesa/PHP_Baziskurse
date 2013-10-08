@@ -58,6 +58,11 @@ cookies
 MySQL
 * http://phpclub.ru/detail/article/phpintro
 * http://www.php.su/mysql/?fields   !!!!!!!!!!!!!!!!
+SQL запросы. 
+Подробная инструкция по созданию и использованию 
+SQL заросов. Примеры различных SQL запросов
+* http://workmake.ru/bazyi-dannyih/sql-zaprosyi-podrobnaya-instruktsiya-po-sozdaniyu-i-ispolzovaniyu-sql-zarosov-primeryi-razlichnyih-sql-zaprosov/
+* Emacs + SQL http://www.opennet.ru/base/dev/mysql_select.txt.html
 
 SQL
 * http://ru.wikipedia.org/wiki/SQL
