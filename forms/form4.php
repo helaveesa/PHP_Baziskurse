@@ -23,11 +23,8 @@
 	$strMessage = $_POST["message"];
 
 	mail($strEmail,$strSubject,$strMessage);
-	echo "Mail Sent.";
-	 
-	
+	echo "Mail Sent.";	
 	?>
-?>
 </body> 
 </html>
 
