@@ -23,29 +23,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `uchet`
+-- Структура таблицы `chitately`
 --
 
-CREATE TABLE IF NOT EXISTS `uchet` (
-  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
-  `id_chit` smallint(6) NOT NULL,
-  `id_book` smallint(6) NOT NULL,
-  `date_s` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id` (`id`),
-  KEY `id_chit` (`id_chit`),
-  KEY `id_book` (`id_book`),
-  KEY `id_chit_2` (`id_chit`)
-) ENGINE=InnoDB  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=4 ;
+CREATE TABLE IF NOT EXISTS `chitately` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `fio` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=5 ;
 
 --
--- Дамп данных таблицы `uchet`
+-- Дамп данных таблицы `chitately`
 --
 
-INSERT INTO `uchet` (`id`, `id_chit`, `id_book`, `date_s`) VALUES
-(1, 3, 1, '2013-10-07'),
-(2, 3, 1, '2013-10-07'),
-(3, 3, 1, '2013-11-07');
+INSERT INTO `chitately` (`id`, `fio`, `phone`) VALUES
+(1, 'vasiya', '5558545'),
+(2, 'masha', '2354515'),
+(3, 'vasiya', '5558545'),
+(4, 'masha', '2354515');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
