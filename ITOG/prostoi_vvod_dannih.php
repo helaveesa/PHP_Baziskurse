@@ -6,7 +6,7 @@
   </head>
  <body>
  <p>Простой ввод данных</p>
- <form method = "get" action = "1.php">
+ <form method = "get" action = "../test/1.php">
  <p>Введите Ваше имя: <br />
  <input type = "text" name = "name1"><br>
  <p><input type = "submit" name = "s1" value = "Start"><br></p>

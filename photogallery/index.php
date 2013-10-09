@@ -95,6 +95,7 @@
             <td><input type = "file" name = "photo"></td><br>          
             <td><input type = "submit" name = "z1" value = "Загрузить"></td><br><br>
          </tr>
+       </table>
 	</form>
  </body> 
 </html>
