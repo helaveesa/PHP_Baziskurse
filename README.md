@@ -64,6 +64,10 @@ SQL запросы.
 SQL заросов. Примеры различных SQL запросов
 * http://workmake.ru/bazyi-dannyih/sql-zaprosyi-podrobnaya-instruktsiya-po-sozdaniyu-i-ispolzovaniyu-sql-zarosov-primeryi-razlichnyih-sql-zaprosov/
 * Emacs + SQL http://www.opennet.ru/base/dev/mysql_select.txt.html
+* http://vtit.kuzstu.ru/books/shelf/143/sod/sod.html (запросы)
+* http://www.mysql.ru/docs/man/Reference.html (справочник)
+* http://phpclub.ru/mysql/doc/reference.html
+* 
 
 SQL
 * http://ru.wikipedia.org/wiki/SQL
