@@ -14,6 +14,7 @@ PHP_Baziskurse
 * http://www.sergeeva-i.narod.ru/inform/page6.htm
 * http://approsto.com/
 * http://www.w3schools.com/  !!!!!!!!!!!
+* http://www.mirsite.ru/arrayf/1/24.htm (расчет среднего значения массива)
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
