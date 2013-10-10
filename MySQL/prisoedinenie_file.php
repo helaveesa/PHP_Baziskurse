@@ -6,6 +6,11 @@
 </head>
 
 <body>
+<!-- форма поиска -->
+<form>
+<input type = "text" name "search">
+<input type = "submit" name "ok_search" value = "Поиск">
+</form>
 <!--форма добавления книги-->
 <h3>Добавить книгу:</h3>
 	<form method="get">
@@ -47,12 +52,31 @@ if (isset ($_GET[s1])) {
 	}
 	echo '</select>';
 	
+
+// поиск
+if (isset($_GET[search])) { 
+	$search = strtolower ($_GET[search]);
+	$usl = "WHERE LCASE (author) LIKE '%$search%'";
+}
+
+
 // подключение внешнего файла
 require ("config.php");
-$sql = "SELECT *FROM books";
+if (isset($_GET[sort])) $x=$_GET[sort]; else $x="id";
+echo $sql = "SELECT *FROM books $usl ORDER BY $x";
 $rez = mysql_query($sql);
+
 // список книг по БД
-echo '<table border = 1 width = 100>';
+echo "<table border = 1 width = 100>
+	<tr>
+	<th><a href='?sort=id'> id </a></th>  
+	<th><a href='?sort=author'>= author</a></th>  
+	<th><a href='?sort=nazv'> nazv</a></th>  
+	<th><a href='?sort=god_izd'> god_izd</a></th>  
+	<th><a href='?sort=izdat'>izdat </a></th>
+	<th>$nbsp</th>
+	</tr> ";
+ 
 while ($books = mysql_fetch_array ($rez))
 {
 	
@@ -89,7 +113,7 @@ if (isset ($_GET[edit])) {
     
 <?php 
 	echo '<td><select name = "god_izd">';
-	for ($i = 1920; $i<=2013; $i--) {
+	for ($i = 2013; $i>=1920; $i--) {
 		if ($i==$book[god_izd]) $sl="selected" ;
 		else $sl="";
 		echo "<option value = '$i' $sl>$i</option>";
