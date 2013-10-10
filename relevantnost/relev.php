@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<form method = "post">
 <title>Релевантность источников</title>
 <style type="text/css">
    TD {
@@ -228,8 +229,8 @@
   <td id="col3"><?php echo "$srznach_108 = ";?></td>    
    </tr>
   </table>
-
-
+ </form>
+ 
 <!-- отчетная таблица по ДОСТОВЕРНОСТИ -->
 <h3>Отчетная таблица по достоверности источников</h3>
 
@@ -382,6 +383,8 @@ $switch ($ocenka_orig) {
 }
 
 // обработчик формы источников
+<form method = "post">
+
 ?>
 </body>
 </html>

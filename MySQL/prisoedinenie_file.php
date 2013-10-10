@@ -18,7 +18,7 @@
 	<td><input type = "text" name = "author"><br>Автор:</td>
     <td><input type = "text" name = "izdat"><br>Издательство:</td>
     <select name = "god_izd">
-    <option value = "2013">2013</option>>
+    <option value = "2013">2013</option>
     </select>
     <td><input type="submit" name = "s1" value="Добавить" /></td>
     </form>
