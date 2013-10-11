@@ -67,8 +67,11 @@ DESC результат будет отсортирован в обратном порядке (Z-A) */
 
 $rez=mysql_query($sql);
 while($zakaz=mysql_fetch_array($rez))
+/*mysql_fetch_array --  Обрабатывает ряд результата запроса, возвращая ассоциативный массив, численный массив или оба*/
 {
 	$sum=$zakaz[cena]*$zakaz[kol];
+	// вычисление суммы заказа
+	// табличный вывод данных клиента интернет мазгазина
 	echo "<tr>
 			<td>$zakaz[id]</td>
 			<td>$zakaz[fio] <br> ($zakaz[phone]) <br> $zakaz[adres]</td>
@@ -76,12 +79,14 @@ while($zakaz=mysql_fetch_array($rez))
 			<td>$zakaz[kol] шт.</td>
 			<td>$sum р.</td>
 			<td>";
+			// цикл обозначения оценок для создания статуса заказа
 	switch($zakaz[status])
 	{
 		case 0: echo "новый"; break;
 		case 1: echo "в обработке"; break;
 		case 2: echo "доставлен"; break;
 	}
+	// табличный вывод статуса
 	echo "<br>
 	<a href='?stat=0&id=$zakaz[id]'>новый</a><br>
 	<a href='?stat=1&id=$zakaz[id]'>в обработке</a><br>

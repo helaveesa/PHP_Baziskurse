@@ -21,6 +21,25 @@ http://www.php.su/mysql_query
 http://scriptic.narod.ru/html/teg.htm
 http://design4free.narod.ru/articles/td_1.html
 
+*md5
+http://www.php.su/functions/?md5
+
+*mysql-fetch-array
+http://www.php.su/functions/?mysql-fetch-array
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 SQL
 SQLSQL
@@ -53,7 +72,6 @@ http://ru.wikipedia.org/wiki/COMMIT
 * Rollback
 http://ru.wikipedia.org/wiki/ROLLBACK
 
-*
 
 
 
