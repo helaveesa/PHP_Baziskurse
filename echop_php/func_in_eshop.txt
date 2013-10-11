@@ -1,0 +1,62 @@
+Функции из кода по интернет магазину:
+
+*require
+http://www.php.su/functions/?require
+
+*unset
+http://www.php.su/functions/?unset
+
+*session_start();
+* $_SESSION
+http://www.softtime.ru/bookphp/gl8_1.php
+
+*header()
+header("Location: http://
+http://www.php.su/functions/?header
+
+*mysql_query
+http://www.php.su/mysql_query
+
+*html--> teg.htm
+http://scriptic.narod.ru/html/teg.htm
+http://design4free.narod.ru/articles/td_1.html
+
+
+SQL
+SQLSQL
+SQLSQLSQL
+SQLSQLSQLSQL
+*documentaciya po mysql 
+http://www.mysql.ru/docs/ilyin/
+
+* Insert_(SQL)
+http://ru.wikipedia.org/wiki/Insert_(SQL)
+
+* Delete_(SQL)
+http://ru.wikipedia.org/wiki/Delete_(SQL)
+
+* Truncate (SQL)
+http://ru.wikipedia.org/wiki/Truncate_(SQL)
+
+* Where (SQL)
+http://ru.wikipedia.org/wiki/WHERE
+
+* Select (SQL)
+http://ru.wikipedia.org/wiki/SELECT
+
+* Having (SQL)
+http://ru.wikipedia.org/wiki/HAVING
+
+* Commit (SQL)
+http://ru.wikipedia.org/wiki/COMMIT
+
+* Rollback
+http://ru.wikipedia.org/wiki/ROLLBACK
+
+*
+
+
+
+
+
+
