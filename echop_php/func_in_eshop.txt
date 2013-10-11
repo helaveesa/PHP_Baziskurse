@@ -27,6 +27,19 @@ http://www.php.su/functions/?md5
 *mysql-fetch-array
 http://www.php.su/functions/?mysql-fetch-array
 
+*move_uploaded_file() - Перемещает загруженный файл в новое место
+
+*mysql-insert-id
+http://www.php.su/functions/?mysql-insert-id
+
+*list
+http://www.php.su/functions/?list
+
+*Multipart/form-data
+http://ru.wikipedia.org/wiki/Multipart/form-data
+
+
+
 
 
 
