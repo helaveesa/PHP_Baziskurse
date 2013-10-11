@@ -15,6 +15,7 @@ PHP_Baziskurse
 * http://approsto.com/
 * http://www.w3schools.com/  !!!!!!!!!!!
 * http://www.mirsite.ru/arrayf/1/24.htm (расчет среднего значения массива)
+* http://myblaze.ru/urok-16-php-post-get/ (PHP — POST & GET)
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
