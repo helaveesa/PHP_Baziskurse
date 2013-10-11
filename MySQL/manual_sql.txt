@@ -1,0 +1,22 @@
+Ввод запросов
+
+SELECT * FROM my_table WHERE name = "Smith AND age < 30;">
+
+Создание и использование базы данных
+
+Узнать, какие базы существуют в настоящее время на сервере, можно при помощи команды SHOW:
+mysql> SHOW DATABASES;
+
+Создание и выбор базы данных
+
+CREATE DATABASE menagerie;
+
+Создание таблицы
+
+CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),
+    -> species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+  SHOW TABLES;
+  
+  Проверить, правильно была ли таблица создана в соответствии с планом, можно при помощи команды DESCRIBE:
+mysql> DESCRIBE pet;
+
