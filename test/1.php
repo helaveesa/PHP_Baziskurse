@@ -6,7 +6,7 @@
   </head>
  <body>
  <form method = "get" action = "2.php"><br>
- <h3>Первый вопрос: Столица РФ?</h3> <br />
+ <h3>Оцените оперативность источников СМИ:</h3> <br />
  <input type = "radio" name = "v1" value="Санкт-Петербург">Санкт-Петербург<br />
  <input type = "radio" name = "v1" value="Москва">Москва<br />
  <input type = "radio" name = "v1" value="Краснодар">Краснодар<br />
