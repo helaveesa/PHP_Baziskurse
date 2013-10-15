@@ -23,12 +23,13 @@ $i = 0; // создаём итератор или счетчик
 $previewBox = array(); // создаём массив для хранения результатов
 
 foreach($elements as $element) {
-    $books[$i]['id'] = $element->id; // идентификатор книги
-    $books[$i]['image'] = $element->children(0)->src; // адрес превью
-    $books[$i]['name'] = $element->children(1)->children(0)->plaintext; // получаем название книги
-    $books[$i]['author'] = $element->children(2)->children(0)->plaintext; // автор
-        $books[$i]['price'] = $element->children(3)->children(0)->plaintext; // цена
+    $previewBox[$i]['id'] = $element->id; // идентификатор книги
+    $previewBox[$i]['image'] = $element->children(0)->src; // адрес превью
+    $previewBox[$i]['name'] = $element->children(1)->children(0)->plaintext; // получаем название книги
+    $previewBox[$i]['author'] = $element->children(2)->children(0)->plaintext; // автор
+        $previewBox[$i]['price'] = $element->children(3)->children(0)->plaintext; // цена
     $i++; //увеличиваем значение итератора
+	echo "$element";
 }
 
 
