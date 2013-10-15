@@ -7,15 +7,13 @@
   <body>
   <form method = "post">
   	  <tr>
-		<td><input type = "text" name = "lg"><br>Введите Ваш логин</td>
-        
-		<td><input type = "password" name = "pwd"><br>Введите Ваш пароль</td>
-        
+		<td>Введите Ваш логин<br><input type = "text" name = "lg"></td> </br>      
+		<td>Введите Ваш пароль<br><input type = "password" name = "pwd"></td>
+        <td>Ваш пол:</td></br>	
 		<td>М <input type = "radio" name = "v" value="мужской"><br></td>
-		<td>Ж <input type = "radio" name = "v" value="женский"><br></td>
-		
-        <td>
-        <select name = "strana"></br>
+		<td>Ж <input type = "radio" name = "v" value="женский"><br></td></br>		
+        <td><br>Выбрать страну из списка:</br>
+        <select name = "strana">
                 <option value = "strn"> Австралия </option></br>
                 <option value = "strn"> Барбадос </option></br>
                 <option value = "strn"> Бельгия </option></br>
@@ -38,10 +36,10 @@
                 <option value = "strn"> Фиджи </option></br>
                 <option value = "strn"> Франция </option></br>
                 <option value = "strn"> Япония </option></br>
-		    </select><br>Выбрать страну из списка:
-            </td>  
-              
-            <td><input type = "comment" name = "com"><br>Ваш комментарий</td>
+		    </select>
+            </td> 
+            </br>             
+            <td>Ваш комментарий<textarea name="comments" rows="3" cols="40"></textarea><br>Ваш комментарий</td>
             <td><input type = "checkbox" name = "box"><br>Согласен:</td>
             <td><input type = "submit" name = "s1" value = "OK"><br></td>
           </tr>

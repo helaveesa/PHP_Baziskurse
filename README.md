@@ -46,6 +46,9 @@ cookies
 Парсер на PHP
 * http://westseo.ru/simple-php-parser/
 * http://ru.wikipedia.org/wiki/JQuery
+* http://habrahabr.ru/post/114143/ !!!!!!!!!!!!!!!
+* http://parsing-and-i.blogspot.ru/2010/05/php-simple-html-dom-parser.html
+* http://formata.net/it/primer-raboty-s-php-simple-html-dom-parser/
 
 Мануал по JQuery
 * http://jquery-docs.ru/
