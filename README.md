@@ -16,6 +16,10 @@ PHP_Baziskurse
 * http://www.w3schools.com/  !!!!!!!!!!!
 * http://www.mirsite.ru/arrayf/1/24.htm (расчет среднего значения массива)
 * http://myblaze.ru/urok-16-php-post-get/ (PHP — POST & GET)
+* Ссылка по созданию интернет магазина на php mysql видео
+http://www.youtube.com/watch?v=LKBzaRniIdc&list=PL1E7D9F7111043E0D
+* видео-уроки по php создание сайтов
+http://2develop.ru/webmaster-free/
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
