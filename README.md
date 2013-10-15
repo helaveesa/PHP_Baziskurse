@@ -20,8 +20,11 @@ PHP_Baziskurse
 http://www.youtube.com/watch?v=LKBzaRniIdc&list=PL1E7D9F7111043E0D
 * видео-уроки по php создание сайтов
 http://2develop.ru/webmaster-free/
-* Уроки Photoshop
-http://besttemplates.ru/photoshop_page1.php
+
+
+Уроки Photoshop
+* http://besttemplates.ru/photoshop_page1.php
+* http://www.site-do.ru/photoshop/photoshop1.php
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
