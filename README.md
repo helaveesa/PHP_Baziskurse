@@ -20,6 +20,9 @@ PHP_Baziskurse
 http://www.youtube.com/watch?v=LKBzaRniIdc&list=PL1E7D9F7111043E0D
 * видео-уроки по php создание сайтов
 http://2develop.ru/webmaster-free/
+* Наиболее полную статистику предоставляет 
+бесплатный сервис HotLog (http://hotlog.ru)
+
 
 
 Уроки Photoshop
