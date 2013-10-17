@@ -28,7 +28,6 @@ http://2develop.ru/webmaster-free/
 Уроки Photoshop
 * http://besttemplates.ru/photoshop_page1.php
 * http://www.site-do.ru/photoshop/photoshop1.php
-* http://workdone.ru/blog/?p=896
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
