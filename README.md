@@ -32,6 +32,8 @@ http://www.ixbt.com/soft/ftp-clients-freeware.shtml
 Уроки Photoshop
 * http://besttemplates.ru/photoshop_page1.php
 * http://www.site-do.ru/photoshop/photoshop1.php
+* http://www.dejurka.ru/tutorial/photoshop-tutorial-switch-button/
+* http://www.photoshop-master.ru/lessons.php?rub=4&id=1082
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html
