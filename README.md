@@ -22,6 +22,10 @@ http://www.youtube.com/watch?v=LKBzaRniIdc&list=PL1E7D9F7111043E0D
 http://2develop.ru/webmaster-free/
 * Наиболее полную статистику предоставляет 
 бесплатный сервис HotLog (http://hotlog.ru)
+* FTP клиенты
+http://soft.mydiv.net/win/cname7/cname22/
+* Путеводитель по бесплатным FTP-клиентам
+http://www.ixbt.com/soft/ftp-clients-freeware.shtml
 
 
 
