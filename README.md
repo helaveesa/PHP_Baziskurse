@@ -34,6 +34,7 @@ http://www.ixbt.com/soft/ftp-clients-freeware.shtml
 * http://www.site-do.ru/photoshop/photoshop1.php
 * http://www.dejurka.ru/tutorial/photoshop-tutorial-switch-button/
 * http://www.photoshop-master.ru/lessons.php?rub=4&id=1082
+* http://www.fotokomok.ru/tekst-po-krugu-v-fotoshop/
 
 Colors for HTML
 * http://www.klubok.net/reviews160.html

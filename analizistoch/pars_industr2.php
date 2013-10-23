@@ -12,8 +12,9 @@ include('simple_html_dom.php'); // подключаем Simple HTML DOM
 // чтобы получить HTML-код, нужной нам страницы
 // Можно использовать стандартную функцию «file_get_contents»
 
-define('INDEXURL', 'http://industrialconflicts.ru/msg/');
+define('INDEXURL', 'http://industrialconflicts.ru/adm/confmsg/?&_filter=4/');
 $result_data = file_get_contents(INDEXURL);
+// нужно подключить сессии так как будет идти работа с паролем и логином
 
 $html = new simple_html_dom(); // создаем объект
 $html->load($result_data); //загружаем HTML-код

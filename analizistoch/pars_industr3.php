@@ -7,17 +7,17 @@
 
 <body>
 <?php
-# пример парсинга http://industrialconflicts.ru/msg/
+# пример парсинга http://industrialconflicts.ru/adm/confmsg/?&_filter=4
 include('simple_html_dom.php');
 
-$text = file_get_html('http://industrialconflicts.ru/msg/');
+$text = file_get_html('http://industrialconflicts.ru/adm/confmsg/?&_filter=4/');
 $i=0;
 # ищем ссылки по которым можно найти полное описание
 foreach ($text -> find('h2.tovarhead a') as $temp){
     # сейчас мы имеем нечто вроде <a title="Nokia 1200" href="99/">Nokia 1200</a>
     # достаним урл
     if(preg_match('/href=".*">/i', $temp, $result)){
-        $out['link'][$i] = 'http://industrialconflicts.ru/msg/'.substr($result[0], 6, strlen($result[0])-8);
+        $out['link'][$i] = 'http://industrialconflicts.ru/adm/confmsg/?&_filter=4'.substr($result[0], 6, strlen($result[0])-8);
     }
     
     #достаним название продукта
