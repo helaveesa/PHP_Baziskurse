@@ -26,6 +26,7 @@ http://2develop.ru/webmaster-free/
 http://soft.mydiv.net/win/cname7/cname22/
 * Путеводитель по бесплатным FTP-клиентам
 http://www.ixbt.com/soft/ftp-clients-freeware.shtml
+* http://www.youtube.com/watch?v=mqd0oDFonq4
 
 
 
