@@ -27,6 +27,7 @@ http://soft.mydiv.net/win/cname7/cname22/
 * Путеводитель по бесплатным FTP-клиентам
 http://www.ixbt.com/soft/ftp-clients-freeware.shtml
 * http://www.youtube.com/watch?v=mqd0oDFonq4
+* http://www.youtube.com/watch?v=mwovwI9lHaY&list=PL58DF3D2816E9CF16&index=6
 
 
 
@@ -59,6 +60,10 @@ cookies
 * http://www.php.su/articles/?cat=examples&page=070
 * http://phpfaq.ru/sessions
 * http://php.spb.ru/php/session.html
+
+Капча
+* http://ru.wikipedia.org/wiki/ImageMagick
+* http://ru.wikipedia.org/wiki/GD_Graphics_Library
 
 Учебник HTML
 * http://ru.html.net/tutorials/html/
