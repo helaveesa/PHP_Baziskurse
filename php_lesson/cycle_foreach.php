@@ -15,13 +15,42 @@ foreach ($array as [$key=>] $value) {
 действие (например вывод на экран echo	
 }*/
 
+$code = array ('Moscou' => 495, 'St.Petersburg' => 812, 'Chelabinsk' => 351);
+
+// ключевое слово as
+foreach ($code as $key => $val) {
+	echo "City: $key - code: $val <br>";
+}
 
 
+echo '<br>';
+
+$numbers = array ('one', 'two', 'three', 'four', 'five');
+// опускаем ключевой индекс
+foreach ($numbers as $num) {
+	echo $num.'<br>';	
+}
 
 
-
-
-
+echo '<br>';
+// обход многомерного массива
+// перед каждым новым примером лучше инициализировать переменную, в которую буду писать новые данные
+$key = 0;
+// создадим двумерный массив
+$plants = array (
+	'Фрукты' => array ('яблоко', 'банан', 'груша'),
+	'Овощи' => array ('картофель', 'свекла'),
+	'Ягоды' => array ('клубника', 'ежевика', 'голубика', 'смородина'));
+	
+foreach ($plants as $key => $kind) {
+	echo "$key:<br>";
+	// оформление маркированного списка
+	echo '<ul>';
+		foreach ($kind as $value) {
+			echo "<li>$value</li>";	
+		}
+	echo '</ul>';
+}
 ?>
 </body>
 </html>
