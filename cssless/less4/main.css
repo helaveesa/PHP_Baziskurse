@@ -1,0 +1,63 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	font: 1em "Arial Black", Gadget, sans-serif;
+	margin:0px;
+}
+
+.conteiner {
+	background:#CFC;
+	display: inline-table;
+	width:1000px;
+	height:200px;	
+	margin:50px;
+	margin-top:40px;
+	padding:10px;
+	max-width:500px;
+	position:relative;
+}
+
+.conteiner-inner {
+	background:#999;
+	margin:5px;
+	position:absolute;
+	bottom:-20px;
+	right:0px;
+	z-index:999;
+}
+
+.conteiner2 {
+	background:#CFC;
+	display: inline-table;
+	width:300px;
+	height:200px;	
+	margin:50px;
+	margin-top:20px;
+	padding:10px;
+	max-width:500px;
+	position:relative;
+}
+
+.conteiner-inner2 {
+	background:#999;
+	margin:10px;
+	position:fixed;
+	top:20px;
+	right:20px;
+}
+
+.conteiner3 {
+	background:#CFC;
+	width:300px;
+	height:200px;	
+	margin:50px;
+	overflow:auto;
+}
+
+a {
+	background:#CFF;
+	display:block;
+	height:50px;
+	margin:20px;	
+}

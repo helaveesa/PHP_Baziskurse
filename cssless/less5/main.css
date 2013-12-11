@@ -1,0 +1,54 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	background:#CCC;
+	font-family:"PT Sans", Verdana, Geneva, sans-serif, Arial;
+	font-size:14px;
+	font-variant:small-caps;
+	text-transform:capitalize;
+	text-shadow:0 2px 0 #FFF;
+}
+
+.big {
+	font-size:1.3em;
+	font-style:italic;	
+}
+
+.small {
+	font-size:0.8em;
+	font-weight:bold;
+	text-align:justify;	/* po shirine */
+	letter-spacing:5px;
+}
+
+.text1 {
+	text-decoration:line-through;
+	text-transform:uppercase;
+	text-align:center;
+	text-indent:30px; /* krasnaya stroka */
+	line-height:30px; /* visota stroki */
+	word-spacing:10px; 
+	
+}
+
+.text2 {
+	text-decoration:underline;
+	
+}
+
+.text3 {
+	text-decoration:overline;
+	
+}
+
+.text4 {
+	text-transform:lowercase;	
+}
+
+p {
+	background:#CCC;
+	font-family:"PT Sans", Arial;
+	font-size:18px;
+	text-shadow:0 2px 0 #FFF, 3px 3px 3px #000;
+}
