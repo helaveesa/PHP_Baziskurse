@@ -1,0 +1,35 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	background-color:#CCC;
+	color:#C3C;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+.container1 {
+	width:200px;
+	height:200px;
+	margin:20px;
+	background:#FCC;
+	
+	border:3px solid #FCF;
+}
+
+.container2 {
+	width:200px;
+	height:200px;
+	margin:20px;
+	background:#FCC;
+	
+	border:3px dashed #FCF;	
+}
+
+.container3 {
+	width:200px;
+	height:200px;
+	margin:20px;
+	background:#FCC;
+	
+	border:3px dotted #FCF;	
+}
